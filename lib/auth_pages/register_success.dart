@@ -5,14 +5,28 @@ class RegisterSuccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-      width: 430,
-      height: 932,
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(color: Color(0xFF0B2031)),
-      child: Stack(
-        children: [
+   return Scaffold(
+      body: Container(
+        width: 463,
+        height: 932,
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(color: Colors.white),
+        child: Stack(
+          children: [
+          Positioned(
+              left: -381,
+              top: -575,
+              child: Container(
+                width: 1080,
+                height: 1920,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("images/background.png"),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+            ),
           Positioned(
             left: 87,
             top: 270,
