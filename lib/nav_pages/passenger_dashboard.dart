@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ConductorDashboard extends StatefulWidget {
-  const ConductorDashboard({super.key});
+class PassengerDashboard extends StatefulWidget {
+  const PassengerDashboard({super.key});
 
   @override
-  State<ConductorDashboard> createState() => _ConductorDashboardState();
+  State<PassengerDashboard> createState() => _PassengerDashboardState();
 }
 
-class _ConductorDashboardState extends State<ConductorDashboard> {
+class _PassengerDashboardState extends State<PassengerDashboard> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -109,10 +109,10 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
               ),
             ),
             Positioned(
-              left: 100,
+              left: 120,
               top: height - 750,
               child: Text(
-                'Account Balance;',
+                'TravBalance;',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFFFF9F00),
@@ -124,7 +124,7 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
               ),
             ),
             Positioned(
-              left: 60,
+              left: 100,
               top: height - 600,
               child: Row(
                 children: [
@@ -140,7 +140,7 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                     ],
                   ),
                   const SizedBox(
-                    width: 25,
+                    width: 30,
                   ),
                   Column(
                     children: [
@@ -154,21 +154,7 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                     ],
                   ),
                   const SizedBox(
-                    width: 25,
-                  ),
-                  Column(
-                    children: [
-                      ImageIcon(
-                        AssetImage("images/withdraw.png"),
-                        color: Colors.black,
-                        size: 24.0,
-                        semanticLabel: "Withdrawing Money",
-                      ),
-                      Text("Withdraw"),
-                    ],
-                  ),
-                  const SizedBox(
-                    width: 25,
+                    width: 30,
                   ),
                   Column(
                     children: [
