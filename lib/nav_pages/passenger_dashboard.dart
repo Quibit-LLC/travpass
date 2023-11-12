@@ -219,6 +219,8 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                     width: 430,
                     height: 300,
                     child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       itemCount: data.length, // The number of items in the list
                       itemBuilder: (context, index) {
                         // The function that returns the widget for each item
