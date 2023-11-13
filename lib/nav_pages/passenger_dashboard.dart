@@ -224,94 +224,35 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                       itemCount: data.length, // The number of items in the list
                       itemBuilder: (context, index) {
                         // The function that returns the widget for each item
-                        return Positioned(
-                          left: 0,
-                          top: index *
-                              100, // Use the index to position each item
-                          child: Container(
-                            width: 430,
-                            height: 80,
-                            decoration: ShapeDecoration(
-                              color: Color(0xFFE0EDF4),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
+                        return ListTile(
+                          title: Text(
+                            data[index],
+                            style: TextStyle(
+                              color: Color(0xFF0B2031),
+                              fontSize: 20,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w500,
+                              height: 0.09,
                             ),
-                            child: Stack(
-                              children: [
-                                Positioned(
-                                  left: 16,
-                                  top: 7,
-                                  child: SizedBox(
-                                    width: 302,
-                                    height: 32,
-                                    child: Text(
-                                      data[index],
-                                      style: TextStyle(
-                                        color: Color(0xFF0B2031),
-                                        fontSize: 20,
-                                        fontFamily: 'Montserrat',
-                                        fontWeight: FontWeight.w500,
-                                        height: 0.09,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 11,
-                                  top: 43,
-                                  child: SizedBox(
-                                    width: 202,
-                                    height: 25,
-                                    child: Text(
-                                      ' 12:22 PM',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontFamily: 'Josefin Sans',
-                                        fontWeight: FontWeight.w500,
-                                        height: 0.09,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 337,
-                                  top: 3,
-                                  child: SizedBox(
-                                    width: 85,
-                                    height: 33,
-                                    child: Text(
-                                      ' +2100',
-                                      style: TextStyle(
-                                        color: Color(0xFF2BC112),
-                                        fontSize: 20,
-                                        fontFamily: 'Josefin Sans',
-                                        fontWeight: FontWeight.w500,
-                                        height: 0.09,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 303,
-                                  top: 36,
-                                  child: SizedBox(
-                                    width: 127,
-                                    height: 39,
-                                    child: Text(
-                                      '27/10/2023',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontFamily: 'Josefin Sans',
-                                        fontWeight: FontWeight.w500,
-                                        height: 0.09,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                          ),
+                          subtitle: Text(
+                            ' 12:22 PM',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontFamily: 'Josefin Sans',
+                              fontWeight: FontWeight.w500,
+                              height: 0.09,
+                            ),
+                          ),
+                          trailing: Text(
+                            ' +2100',
+                            style: TextStyle(
+                              color: Color(0xFF2BC112),
+                              fontSize: 20,
+                              fontFamily: 'Josefin Sans',
+                              fontWeight: FontWeight.w500,
+                              height: 0.09,
                             ),
                           ),
                         );

@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travpass/data/transaction_data.dart';
 import 'package:travpass/nav_pages/chart.dart';
+import 'package:travpass/nav_pages/generate_qr.dart';
 // import 'package:travpass/nav_pages/generate_qr.dart';
 // import 'package:travpass/nav_pages/conductor_dashboard.dart';
 import 'package:travpass/nav_pages/passenger_dashboard.dart';
-import 'package:travpass/nav_pages/scan_qr.dart';
+// import 'package:travpass/nav_pages/scan_qr.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -17,8 +18,10 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   List pages = [
     const PassengerDashboard(),
-    ChangeNotifierProvider(create: (context) => TransactionData(),builder: (context, child)=> const StatisticsPage()),
-    const ScanQRPage(),
+    ChangeNotifierProvider(
+        create: (context) => TransactionData(),
+        builder: (context, child) => const StatisticsPage()),
+    const GenerateQRPage(),
     // const BarItemPage(),
     // const SearchPage(),
     // const MyPage(),
