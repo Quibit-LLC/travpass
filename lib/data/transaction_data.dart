@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:travpass/data/hive_database.dart';
 import 'package:travpass/datetime/date_time_helper.dart';
-import 'package:travpass/models/transactions.dart';
+import 'package:travpass/business_logic/models/transactions.dart';
 
 class TransactionData extends ChangeNotifier {
   // list of all transactions

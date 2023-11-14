@@ -1,10 +1,100 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:travpass/business_logic/services/auth_service.dart';
+import 'package:travpass/core/strings.dart';
+import 'package:travpass/nav_pages/main_page.dart';
 
-class ConductorLoginPage extends StatelessWidget {
+class ConductorLoginPage extends StatefulWidget {
+  
   const ConductorLoginPage({super.key});
 
   @override
+  State<ConductorLoginPage> createState() => _ConductorLoginPageState();
+}
+
+class _ConductorLoginPageState extends State<ConductorLoginPage> {
+   // defining the input controllers for email and password
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  bool isLoading = false;
+  bool _obscureText = true;
+
+  String? errorTextEmail;
+  String? errorTextPassword;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.text.toString();
+    _passwordController.text.toString();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    handleSignIn() async {
+      setState(() {
+        isLoading = true;
+      });
+
+      // validating user inputs credentials for login before submitting the data to the server
+      if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+        if (_emailController.text.isEmpty) {
+          errorTextEmail = kEmailNullError;
+        }
+        if (_passwordController.text.isEmpty) {
+          errorTextPassword = kPasswordNullError;
+        }
+        setState(() {
+          isLoading = false;
+        });
+        return;
+      } else if (!emailValidatorRegExp
+              .hasMatch(_emailController.text.toString()) ||
+          _passwordController.text.length < 8) {
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        // valid input
+        //provide type information to ensure type safety
+        Map<String, dynamic> body = {
+          'email': _emailController.text,
+          'password': _passwordController.text,
+        };
+
+        String result = await Provider.of<AuthService>(context, listen: false)
+            .loginUser(body);
+        if (result == "ok") {
+          Navigator.push(
+              context, MaterialPageRoute(builder: ((context) => MainPage())));
+          // navigateToMainActivity(context);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                result,
+                style: const TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.red, // Set background color to red
+            ),
+          );
+        }
+
+        setState(() {
+          isLoading = false;
+        });
+        return;
+      }
+    }
+
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
@@ -116,7 +206,7 @@ class ConductorLoginPage extends StatelessWidget {
                       ),
                       filled: true,
                       fillColor: Colors.white,
-                      hintText: "Phone Number/Email",
+                      hintText: "Email",
                       hintStyle: TextStyle(
                           color: Color(0xFFFF9F00),
                           fontSize: 20.0,

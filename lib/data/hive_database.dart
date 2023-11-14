@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:travpass/models/transactions.dart';
+import 'package:travpass/business_logic/models/transactions.dart';
 
 class HiveDataBase {
   // reference the box

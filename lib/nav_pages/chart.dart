@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:travpass/components/transaction_summary.dart';
 import 'package:travpass/components/transaction_tile.dart';
 import 'package:travpass/data/transaction_data.dart';
-import 'package:travpass/models/transactions.dart';
+import 'package:travpass/business_logic/models/transactions.dart';
 
 class StatisticsPage extends StatefulWidget {
   const StatisticsPage({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:travpass/auth_pages/passenger_login.dart';
 
 // import 'package:travpass/auth_pages/intro.dart';
 // import 'package:travpass/auth_pages/register_conductor.dart';
@@ -10,7 +10,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 // import 'package:travpass/auth_pages/register_page_one.dart';
 // import 'package:travpass/auth_pages/conductor_login.dart';
 // import 'package:travpass/nav_pages/conductor_dashboard.dart';
-import 'package:travpass/nav_pages/main_page.dart';
+// import 'package:travpass/nav_pages/main_page.dart';
 // import 'package:travpass/auth_pages/passenger_login.dart';
 
 void main() async{
@@ -34,6 +34,6 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const MainPage());
+        home: const PassengerLoginPage());
   }
 }

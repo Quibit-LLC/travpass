@@ -45,6 +45,10 @@ dependencies:
   mobile_scanner: ^3.5.2
   qr_flutter: ^4.1.0
   qr_scanner_overlay: ^0.0.2
+  http:
+  flutter_secure_storage: ^9.0.0
+  go_router: ^11.1.2
+
 
 dev_dependencies:
   flutter_test:
