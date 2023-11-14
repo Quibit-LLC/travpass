@@ -110,7 +110,7 @@ class TransferSuccess extends StatelessWidget {
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
