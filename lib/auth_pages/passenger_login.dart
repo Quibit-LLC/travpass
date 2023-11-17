@@ -371,6 +371,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
       setState(() {
         isLoading = false;
       });
+      return;
     } else if (!emailValidatorRegExp
             .hasMatch(_emailController.text.toString()) ||
         _passwordController.text.length < 8) {
@@ -388,8 +389,6 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
       String result = await Provider.of<AuthService>(context, listen: false)
           .loginUser(body);
       if (result == "ok") {
-        if (result == "ok") {
-          
           context.goNamed(AppRoutes.mainActivityRoute);
           // navigateToMainActivity(context);
         } else {
@@ -407,7 +406,8 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
         setState(() {
           isLoading = false;
         });
+        return;
       }
     }
   }
-}
+

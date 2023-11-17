@@ -61,7 +61,7 @@ class _MyAppState extends State<MyApp> {
   final SharedPreferences prefs;
 
   _MyAppState({required this.prefs});
-
+  
   @override
   void initState() {
     super.initState();
@@ -73,7 +73,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
+         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),

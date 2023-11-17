@@ -14,7 +14,6 @@ class SharedPrefHelper {
   static const String emailKey = 'email';
   static const String isLoggedInKey = 'isLoggedIn';
   static const String balanceKey = 'balance';
- 
 
   // Function to save user information
   Future<void> saveUserInfo({
@@ -24,14 +23,15 @@ class SharedPrefHelper {
     required String email,
     required double balance,
     required bool isLoggedIn,
-  }) 
-  async {
+  }) async {
+    print(email);
     await _prefs.setString(tokenKey, token);
     await _prefs.setString(idKey, id);
     await _prefs.setString(nameKey, userName);
     await _prefs.setString(emailKey, email);
     await _prefs.setDouble(balanceKey, balance);
     await _prefs.setBool(isLoggedInKey, isLoggedIn);
+    print(userName);
   }
 
   // Function to retrieve user details
@@ -40,7 +40,7 @@ class SharedPrefHelper {
     final userName = _prefs.getString(nameKey);
     final email = _prefs.getString(emailKey);
     final token = _prefs.getString(tokenKey);
-     final balance = _prefs.getString(balanceKey);
+    final balance = _prefs.getString(balanceKey);
 
     if (id != null && userName != null && email != null && token != null) {
       return User(
@@ -68,6 +68,4 @@ class SharedPrefHelper {
   bool isLoggedIn() {
     return _prefs.getBool(isLoggedInKey) ?? false;
   }
-
-
 }

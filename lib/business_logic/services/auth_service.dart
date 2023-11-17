@@ -65,27 +65,27 @@ class AuthService extends ChangeNotifier {
         // print('body: [${response.body}]');
         final json = jsonDecode(response.body);
         if (json['status'] == 'success') {
-          res = "ok";
-          
           // Get the token and user details from the response
           final token = json['data']['token'];
           final id = json['data']['passenger']['id'];
           final userName = json['data']['passenger']['userName'];
           final emailAddrress = json['data']['passenger']['emailAddress'];
           final balance = json['data']['passenger']['balance'];
-          print(userName);
+          //print(userName);
           // Store the token and user details using SharedPrefHelper
           await SharedPrefHelper(_prefs).saveUserInfo(
             token: token,
             id: id.toString(),
             userName: userName,
             email: emailAddrress,
-            balance: balance, 
+            balance: balance,
             isLoggedIn: true,
           );
-          print(emailAddrress);
+         // print(emailAddrress);
           // Update the AuthProvider state
           _isLoggedIn = true;
+
+          res = "ok";
         } else {
           // Authentication failed
           res = jsonDecode(response.body)["message"];
@@ -109,7 +109,7 @@ class AuthService extends ChangeNotifier {
 
     // Notify the listeners
     notifyListeners();
-    
+   
     return res;
   }
 
