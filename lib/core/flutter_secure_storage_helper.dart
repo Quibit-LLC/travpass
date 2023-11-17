@@ -12,6 +12,7 @@ class FlutterSecureStorageHelper {
   static const String idKey = 'id';
   static const String nameKey = 'name';
   static const String emailKey = 'email';
+   static const String balanceKey = 'balance';
   static const String isLoggedInKey = 'isLoggedIn';
  
 
@@ -21,12 +22,14 @@ class FlutterSecureStorageHelper {
     required String id,
     required String name,
     required String email,
+    required double balance,
     required bool isLoggedIn,
   }) async {
     await _storage.write(key: tokenKey, value: token);
     await _storage.write(key: idKey, value: id);
     await _storage.write(key: nameKey, value: name);
     await _storage.write(key: emailKey, value: email);
+     await _storage.write(key: balanceKey, value: balance.toString());
     await _storage.write(key: isLoggedInKey, value: isLoggedIn.toString());
   }
 
@@ -36,6 +39,7 @@ class FlutterSecureStorageHelper {
     final id = await _storage.read(key: idKey);
     final name = await _storage.read(key: nameKey);
     final email = await _storage.read(key: emailKey);
+    final balance = _storage.read(key: balanceKey);
     final token = await _storage.read(key: tokenKey);
 
     if (id != null && name != null && email != null && token != null) {
@@ -43,6 +47,7 @@ class FlutterSecureStorageHelper {
           // id: id,
           id: int.tryParse(id) ?? 0, // Convert id to int or use a default value
           name: name,
+          balance: double.tryParse(balance as String) ?? 0,
           email: email,
           token: token);
     } else {

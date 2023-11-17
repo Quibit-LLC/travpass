@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travpass/auth_pages/passenger_login.dart';
+import 'package:travpass/business_logic/services/auth_service.dart';
 
 // import 'package:travpass/auth_pages/intro.dart';
 // import 'package:travpass/auth_pages/register_conductor.dart';
@@ -14,17 +17,57 @@ import 'package:travpass/auth_pages/passenger_login.dart';
 // import 'package:travpass/auth_pages/passenger_login.dart';
 
 void main() async{
+
   await Hive.initFlutter();
 
   await Hive.openBox("Transaction_Database");
+    // Ensure Flutter Widgets are initialized
+  WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(const MyApp());
+  // Initialize Flutter Secure Storage
+  // final storage = FlutterSecureStorage();
+
+  // Initialize SharedPreferences
+  final prefs = await SharedPreferences.getInstance();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => AuthService(prefs),
+        ),
+      ],
+      child: MyApp(prefs: prefs),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+   // final FlutterSecureStorage storage;
 
-  // This widget is the root of your application.
+  // Pass SharedPreferences
+  final SharedPreferences prefs;
+
+  const MyApp({Key? key, required this.prefs}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState(prefs: prefs);
+}
+
+class _MyAppState extends State<MyApp> {
+   // final FlutterSecureStorage storage;
+
+  // Store SharedPreferences
+  final SharedPreferences prefs;
+
+  _MyAppState({required this.prefs});
+
+  @override
+  void initState() {
+    super.initState();
+  }
+  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

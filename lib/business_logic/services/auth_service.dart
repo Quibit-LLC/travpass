@@ -42,7 +42,6 @@ class AuthService extends ChangeNotifier {
     notifyListeners();
   }
 
- 
   //login user
   Future<String> loginUser(Map<String, dynamic> body) async {
     String res = "";
@@ -60,28 +59,31 @@ class AuthService extends ChangeNotifier {
         body: jsonEncode(body),
         headers: headers,
       );
+      print(response.body);
       // Check if authentication was successful
       if (response.statusCode == 200) {
         // print('body: [${response.body}]');
         final json = jsonDecode(response.body);
-        if (json['success'] == true) {
+        if (json['status'] == 'success') {
           res = "ok";
-
+          
           // Get the token and user details from the response
-          final token = json['token'];
-          final id = json['data']['id'];
-          final name = json['data']['name'];
-          final email = json['data']['email'];
-
+          final token = json['data']['token'];
+          final id = json['data']['passenger']['id'];
+          final userName = json['data']['passenger']['userName'];
+          final emailAddrress = json['data']['passenger']['emailAddress'];
+          final balance = json['data']['passenger']['balance'];
+          print(userName);
           // Store the token and user details using SharedPrefHelper
           await SharedPrefHelper(_prefs).saveUserInfo(
             token: token,
             id: id.toString(),
-            name: name,
-            email: email,
+            userName: userName,
+            email: emailAddrress,
+            balance: balance, 
             isLoggedIn: true,
           );
-
+          print(emailAddrress);
           // Update the AuthProvider state
           _isLoggedIn = true;
         } else {
@@ -95,7 +97,8 @@ class AuthService extends ChangeNotifier {
     } catch (e) {
       if (e is SocketException) {
         // res = "Network error occurred";
-        res = "Unable to connect to the network. Please check your internet connection and try again.";
+        res =
+            "Unable to connect to the network. Please check your internet connection and try again.";
       } else if (e is FormatException || e is JsonUnsupportedObjectError) {
         res = "Unknown error occurred";
         // print("=------------------> ${res.toString()}");
@@ -106,9 +109,9 @@ class AuthService extends ChangeNotifier {
 
     // Notify the listeners
     notifyListeners();
+    
     return res;
   }
-
 
   Future<String> signUpUser(Map<String, dynamic> body) async {
     String res = "";
@@ -138,7 +141,6 @@ class AuthService extends ChangeNotifier {
         if (json['success'] == false) {
           res = json['message'];
 
-
           // Check for specific errors in the "errors" field
           if (json.containsKey('errors')) {
             Map<String, dynamic> errors = json['errors'];
@@ -147,15 +149,13 @@ class AuthService extends ChangeNotifier {
               String formattedField = field.splitMapJoin('_',
                   onMatch: (m) => ' ',
                   onNonMatch: (n) =>
-                  n.isEmpty ? '' : n[0].toUpperCase() + n.substring(1));
+                      n.isEmpty ? '' : n[0].toUpperCase() + n.substring(1));
 
               for (var error in errorList) {
                 res += " $formattedField Error: $error";
               }
             });
           }
-
-
         } else {
           res = "ok"; // Sign-up was successful
         }
@@ -164,7 +164,8 @@ class AuthService extends ChangeNotifier {
       }
     } catch (e) {
       if (e is SocketException) {
-        res = "Unable to connect to the network. Please check your internet connection and try again.";
+        res =
+            "Unable to connect to the network. Please check your internet connection and try again.";
       } else if (e is FormatException || e is JsonUnsupportedObjectError) {
         res = "Unknown error occurred";
       } else {
@@ -176,5 +177,4 @@ class AuthService extends ChangeNotifier {
     notifyListeners();
     return res;
   }
-
 }

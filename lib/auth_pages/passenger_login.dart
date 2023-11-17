@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:travpass/business_logic/services/auth_service.dart';
+import 'package:travpass/components/loading_button.dart';
+import 'package:travpass/core/app_routes.dart';
 import 'package:travpass/core/strings.dart';
-import 'package:travpass/nav_pages/main_page.dart';
 
 class PassengerLoginPage extends StatefulWidget {
   const PassengerLoginPage({super.key});
@@ -38,62 +40,6 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    handleSignIn() async {
-      setState(() {
-        isLoading = true;
-      });
-
-      // validating user inputs credentials for login before submitting the data to the server
-      if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-        if (_emailController.text.isEmpty) {
-          errorTextEmail = kEmailNullError;
-        }
-        if (_passwordController.text.isEmpty) {
-          errorTextPassword = kPasswordNullError;
-        }
-        setState(() {
-          isLoading = false;
-        });
-        return;
-      } else if (!emailValidatorRegExp
-              .hasMatch(_emailController.text.toString()) ||
-          _passwordController.text.length < 8) {
-        setState(() {
-          isLoading = false;
-        });
-      } else {
-        // valid input
-        //provide type information to ensure type safety
-        Map<String, dynamic> body = {
-          'email': _emailController.text,
-          'password': _passwordController.text,
-        };
-
-        String result = await Provider.of<AuthService>(context, listen: false)
-            .loginUser(body);
-        if (result == "ok") {
-          Navigator.push(
-              context, MaterialPageRoute(builder: ((context) => MainPage())));
-          // navigateToMainActivity(context);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                result,
-                style: const TextStyle(color: Colors.white),
-              ),
-              backgroundColor: Colors.red, // Set background color to red
-            ),
-          );
-        }
-
-        setState(() {
-          isLoading = false;
-        });
-        return;
-      }
-    }
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
@@ -180,7 +126,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
               ),
               Positioned(
                 left: 25,
-                top: height - 420,
+                top: height * 0.42,
                 child: SizedBox(
                   width: 350,
                   child: TextFormField(
@@ -234,7 +180,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
               if (errorTextEmail != null)
                 Positioned(
                   left: 25,
-                  top: height - 350,
+                  top: height * 0.49,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -248,7 +194,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                 ),
               Positioned(
                 left: 25,
-                top: height - 320,
+                top: height * 0.55,
                 child: SizedBox(
                   width: 350,
                   child: TextField(
@@ -286,7 +232,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
               if (errorTextPassword != null)
                 Positioned(
                   left: 25,
-                  top: height - 245,
+                  top: height * 0.62,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -299,14 +245,15 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                   ),
                 ),
               Positioned(
-                left: 43,
-                top: height - 215,
+                left: 60,
+                top: height * 0.7,
+                right: 50,
                 child: isLoading
-                    ? loadingButton()
+                    ? const LoadingButton()
                     : GestureDetector(
                         onTap: handleSignIn,
                         child: Container(
-                          width: 333,
+                          width: 300,
                           height: 75,
                           child: Stack(
                             children: [
@@ -314,7 +261,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                                 left: 0,
                                 top: 0,
                                 child: Container(
-                                  width: 300,
+                                  width: 250,
                                   height: 75,
                                   decoration: ShapeDecoration(
                                     color: Color(0xFF0B2031),
@@ -325,7 +272,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                                 ),
                               ),
                               const Positioned(
-                                left: 110,
+                                left: 75,
                                 top: 40,
                                 child: SizedBox(
                                   width: 109,
@@ -350,8 +297,8 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                       ),
               ),
               Positioned(
-                left: 65,
-                top: height - 80,
+                left: 50,
+                top: height * 0.88,
                 child: SizedBox(
                   width: 309,
                   height: 42,
@@ -384,8 +331,8 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                 ),
               ),
               Positioned(
-                left: 140,
-                top: height - 120,
+                left: 100,
+                top: height * 0.83,
                 child: SizedBox(
                   width: 309,
                   height: 158,
@@ -408,46 +355,59 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
     );
   }
 
-  Widget loadingButton() {
-    return Container(
-      height: 55,
-      width: double.infinity,
-      margin: const EdgeInsets.only(top: 30),
-      child: TextButton(
-        onPressed: null,
-        style: TextButton.styleFrom(
-          backgroundColor: Colors.purple,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // if (isLoadingState) // Replace isLoadingState with your actual isLoading state variable
-            const SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(
-                color: Colors.white,
-                strokeWidth: 2.0,
+  handleSignIn() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    // validating user inputs credentials for login before submitting the data to the server
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      if (_emailController.text.isEmpty) {
+        errorTextEmail = kEmailNullError;
+      }
+      if (_passwordController.text.isEmpty) {
+        errorTextPassword = kPasswordNullError;
+      }
+      setState(() {
+        isLoading = false;
+      });
+    } else if (!emailValidatorRegExp
+            .hasMatch(_emailController.text.toString()) ||
+        _passwordController.text.length < 8) {
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      // valid input
+      //provide type information to ensure type safety
+      Map<String, dynamic> body = {
+        'emailAddress': _emailController.text,
+        'password': _passwordController.text,
+      };
+
+      String result = await Provider.of<AuthService>(context, listen: false)
+          .loginUser(body);
+      if (result == "ok") {
+        if (result == "ok") {
+          
+          context.goNamed(AppRoutes.mainActivityRoute);
+          // navigateToMainActivity(context);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                result,
+                style: const TextStyle(color: Colors.white),
               ),
+              backgroundColor: Colors.red, // Set background color to red
             ),
-            const SizedBox(width: 8),
-            // Add some spacing between the loading indicator and the text
-            Text(
-              'Loading',
-              style: TextStyle(
-                color: Color(0xFFFF9F00),
-                fontSize: 17,
-                fontFamily: 'Josefin Sans',
-                fontWeight: FontWeight.w500,
-                height: 0.06,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+          );
+        }
+
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
   }
 }

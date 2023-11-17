@@ -13,36 +13,42 @@ class SharedPrefHelper {
   static const String nameKey = 'name';
   static const String emailKey = 'email';
   static const String isLoggedInKey = 'isLoggedIn';
+  static const String balanceKey = 'balance';
  
 
   // Function to save user information
   Future<void> saveUserInfo({
     required String token,
     required String id,
-    required String name,
+    required String userName,
     required String email,
+    required double balance,
     required bool isLoggedIn,
-  }) async {
+  }) 
+  async {
     await _prefs.setString(tokenKey, token);
     await _prefs.setString(idKey, id);
-    await _prefs.setString(nameKey, name);
+    await _prefs.setString(nameKey, userName);
     await _prefs.setString(emailKey, email);
+    await _prefs.setDouble(balanceKey, balance);
     await _prefs.setBool(isLoggedInKey, isLoggedIn);
   }
 
   // Function to retrieve user details
   Future<User?> getUserDetails() async {
     final id = _prefs.getString(idKey);
-    final name = _prefs.getString(nameKey);
+    final userName = _prefs.getString(nameKey);
     final email = _prefs.getString(emailKey);
     final token = _prefs.getString(tokenKey);
+     final balance = _prefs.getString(balanceKey);
 
-    if (id != null && name != null && email != null && token != null) {
+    if (id != null && userName != null && email != null && token != null) {
       return User(
         id: int.tryParse(id) ?? 0, // Convert id to int or use a default value
-        name: name,
+        name: userName,
         email: email,
         token: token,
+        balance: double.tryParse(balance!) ?? 0,
       );
     } else {
       return null;
