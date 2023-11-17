@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travpass/auth_pages/passenger_login.dart';
 import 'package:travpass/auth_pages/conductor_login.dart';
-import 'package:travpass/auth_pages/register_page_one.dart';
+
 import 'package:travpass/nav_pages/main_page.dart';
 import 'package:travpass/auth_pages/intro.dart';
 
@@ -38,13 +38,7 @@ class AppRouter {
         child: PassengerLoginPage(),
       ),
     ),
-    GoRoute(
-      name: AppRoutes.signUpRoute,
-      path: signUpPath,
-      pageBuilder: (context, state) => const CupertinoPage(
-        child: RegisterFirstPage(),
-      ),
-    ),
+  
     GoRoute(
       name: AppRoutes.mainActivityRoute,
       path: mainActivityPath,

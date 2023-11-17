@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:travpass/auth_pages/passenger_login.dart';
+
+import 'package:travpass/auth_pages/intro.dart';
+
+
 import 'package:travpass/business_logic/services/auth_service.dart';
 
-// import 'package:travpass/auth_pages/intro.dart';
 // import 'package:travpass/auth_pages/register_conductor.dart';
 
 // import 'package:travpass/auth_pages/register_passenger.dart';
@@ -77,6 +79,6 @@ class _MyAppState extends State<MyApp> {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const PassengerLoginPage());
+        home: IntroPage());
   }
 }

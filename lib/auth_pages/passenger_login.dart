@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:provider/provider.dart';
+import 'package:travpass/auth_pages/register_page_one.dart';
 import 'package:travpass/business_logic/services/auth_service.dart';
 import 'package:travpass/components/loading_button.dart';
-import 'package:travpass/core/app_routes.dart';
+
 import 'package:travpass/core/strings.dart';
+import 'package:travpass/nav_pages/main_page.dart';
 
 class PassengerLoginPage extends StatefulWidget {
   const PassengerLoginPage({super.key});
@@ -71,7 +73,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                       ),
                       Positioned(
                         left: -56.97,
-                        top: -128,
+                        top: height / -5.5,
                         child: Container(
                           width: 567.62,
                           height: 479,
@@ -85,9 +87,9 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                   ),
                 ),
               ),
-              const Positioned(
+              Positioned(
                 left: 10,
-                top: 120,
+                top: height * 0.12,
                 child: SizedBox(
                   width: 400,
                   child: Text.rich(
@@ -130,6 +132,9 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                 child: SizedBox(
                   width: 350,
                   child: TextFormField(
+                     onTapOutside: (event) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                      },
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
@@ -198,6 +203,9 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                 child: SizedBox(
                   width: 350,
                   child: TextField(
+                     onTapOutside: (event) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                      },
                       controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
@@ -226,7 +234,8 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                             errorTextPassword = kPasswordNullError;
                           });
                         }
-                      }),
+                      }
+                      ),
                 ),
               ),
               if (errorTextPassword != null)
@@ -297,26 +306,30 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                       ),
               ),
               Positioned(
-                left: 50,
-                top: height * 0.88,
+                left: 60,
+                top: height * 0.85,
                 child: SizedBox(
                   width: 309,
                   height: 42,
-                  child: Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'Don’t have an Account? ',
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Don’t have an Account? ',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 20,
                             fontFamily: 'Josefin Sans',
                             fontWeight: FontWeight.w500,
                             height: 0.09,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'Sign Up',
+                          )),
+                      GestureDetector(
+                        onTap: () {
+                          MaterialPageRoute(
+                              builder: ((context) =>
+                                  RegisterFirstPage(isConductor: false,)));
+                        },
+                        child: Text(
+                          'Sign Up',
                           style: TextStyle(
                             color: Color(0xFFFF9F00),
                             fontSize: 20,
@@ -325,8 +338,8 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                             height: 0.09,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -389,25 +402,24 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
       String result = await Provider.of<AuthService>(context, listen: false)
           .loginUser(body);
       if (result == "ok") {
-          context.goNamed(AppRoutes.mainActivityRoute);
-          // navigateToMainActivity(context);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                result,
-                style: const TextStyle(color: Colors.white),
-              ),
-              backgroundColor: Colors.red, // Set background color to red
+        Navigator.push(context,
+            MaterialPageRoute(builder: ((context) => const MainPage())));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              result,
+              style: const TextStyle(color: Colors.white),
             ),
-          );
-        }
-
-        setState(() {
-          isLoading = false;
-        });
-        return;
+            backgroundColor: Colors.red, // Set background color to red
+          ),
+        );
       }
+
+      setState(() {
+        isLoading = false;
+      });
+      return;
     }
   }
-
+}

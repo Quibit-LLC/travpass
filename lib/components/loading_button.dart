@@ -7,7 +7,7 @@ class LoadingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 60,
-      width: double.infinity,
+      width: 300,
       margin: const EdgeInsets.only(top: 30),
       child: TextButton(
         onPressed: null,

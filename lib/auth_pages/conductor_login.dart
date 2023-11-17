@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:travpass/auth_pages/register_page_one.dart';
 import 'package:travpass/business_logic/services/auth_service.dart';
+import 'package:travpass/components/loading_button.dart';
 import 'package:travpass/core/strings.dart';
 import 'package:travpass/nav_pages/main_page.dart';
 
 class ConductorLoginPage extends StatefulWidget {
-  
   const ConductorLoginPage({super.key});
 
   @override
@@ -13,27 +14,31 @@ class ConductorLoginPage extends StatefulWidget {
 }
 
 class _ConductorLoginPageState extends State<ConductorLoginPage> {
-   // defining the input controllers for email and password
+  // defining the input controllers for email and password
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _saccoController = TextEditingController();
 
   bool isLoading = false;
-  bool _obscureText = true;
+  bool isConductor = true;
 
   String? errorTextEmail;
   String? errorTextPassword;
+  String? errorTextSacco;
 
   @override
   void initState() {
     super.initState();
     _emailController.text.toString();
     _passwordController.text.toString();
+    _saccoController.text.toString();
   }
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _saccoController.dispose();
     super.dispose();
   }
 
@@ -52,6 +57,9 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
         if (_passwordController.text.isEmpty) {
           errorTextPassword = kPasswordNullError;
         }
+        if (_saccoController.text.isEmpty) {
+          errorTextSacco = kSaccoNullError;
+        }
         setState(() {
           isLoading = false;
         });
@@ -66,15 +74,16 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
         // valid input
         //provide type information to ensure type safety
         Map<String, dynamic> body = {
-          'email': _emailController.text,
+          'emailAddress': _emailController.text,
           'password': _passwordController.text,
+          'saccoID': _saccoController.text,
         };
 
         String result = await Provider.of<AuthService>(context, listen: false)
             .loginUser(body);
         if (result == "ok") {
-          Navigator.push(
-              context, MaterialPageRoute(builder: ((context) => MainPage())));
+          Navigator.push(context,
+              MaterialPageRoute(builder: ((context) => const MainPage())));
           // navigateToMainActivity(context);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -126,7 +135,7 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
                       ),
                       Positioned(
                         left: -56.97,
-                        top: -128,
+                        top: height / -5.8,
                         child: Container(
                           width: 567.62,
                           height: 479,
@@ -140,9 +149,9 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
                   ),
                 ),
               ),
-              const Positioned(
+              Positioned(
                 left: 10,
-                top: 120,
+                top: height * 0.10,
                 child: SizedBox(
                   width: 400,
                   child: Text.rich(
@@ -181,10 +190,14 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
               ),
               Positioned(
                 left: 25,
-                top: height - 425,
+                top: height * 0.4,
                 child: SizedBox(
                   width: 350,
                   child: TextFormField(
+                    onTapOutside: (event) {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    },
+                    controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
@@ -213,120 +226,228 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
                           fontFamily: 'Josefin Sans'),
                     ),
                     textInputAction: TextInputAction.next,
+                    onChanged: (value) {
+                      if (value.isEmpty) {
+                        setState(() {
+                          errorTextEmail = kEmailNullError;
+                        });
+                      } else if (!emailValidatorRegExp.hasMatch(value)) {
+                        setState(() {
+                          errorTextEmail = kInvalidEmailError;
+                        });
+                      } else {
+                        setState(() {
+                          errorTextEmail = null;
+                        });
+                      }
+                    },
                   ),
                 ),
               ),
+              if (errorTextEmail != null)
+                Positioned(
+                  left: 25,
+                  top: height * 0.47,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      errorTextEmail!,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 12.0,
+                      ),
+                    ),
+                  ),
+                ),
               Positioned(
                 left: 25,
-                top: height - 340,
+                top: height * 0.51,
                 child: SizedBox(
                   width: 350,
                   child: TextField(
-                    obscureText: false,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
+                      onTapOutside: (event) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                      },
+                      controller: _saccoController,
+                      keyboardType: TextInputType.name,
+                      obscureText: false,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        labelText: 'SACCO ID',
                       ),
-                      labelText: 'SACCO ID',
-                    ),
-                    style: TextStyle(
-                      color: Color(0xFFFF9F00),
-                      fontSize: 20,
-                      fontFamily: 'Josefin Sans',
-                      fontWeight: FontWeight.w500,
+                      style: TextStyle(
+                        color: Color(0xFFFF9F00),
+                        fontSize: 20,
+                        fontFamily: 'Josefin Sans',
+                        fontWeight: FontWeight.w500,
+                      ),
+                      onChanged: (value) {
+                        if (value.isNotEmpty && value.length >= 8) {
+                          setState(() {
+                            errorTextSacco = null;
+                          });
+                        } else if (value.isNotEmpty && value.length < 8) {
+                          setState(() {
+                            errorTextSacco = kShortSaccoError;
+                          });
+                        } else {
+                          setState(() {
+                            errorTextSacco = kSaccoNullError;
+                          });
+                        }
+                      }),
+                ),
+              ),
+              if (errorTextSacco != null)
+                Positioned(
+                  left: 25,
+                  top: height * 0.59,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      errorTextSacco!,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 12.0,
+                      ),
                     ),
                   ),
                 ),
-              ),
               Positioned(
                 left: 25,
-                top: height - 250,
+                top: height * 0.63,
                 child: SizedBox(
                   width: 350,
                   child: TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
+                      onTapOutside: (event) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                      },
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        labelText: 'Password',
                       ),
-                      labelText: 'Password',
-                    ),
-                    style: TextStyle(
-                      color: Color(0xFFFF9F00),
-                      fontSize: 20,
-                      fontFamily: 'Josefin Sans',
-                      fontWeight: FontWeight.w500,
+                      style: TextStyle(
+                        color: Color(0xFFFF9F00),
+                        fontSize: 20,
+                        fontFamily: 'Josefin Sans',
+                        fontWeight: FontWeight.w500,
+                      ),
+                      onChanged: (value) {
+                        if (value.isNotEmpty && value.length >= 8) {
+                          setState(() {
+                            errorTextPassword = null;
+                          });
+                        } else if (value.isNotEmpty && value.length < 8) {
+                          setState(() {
+                            errorTextPassword = kShortPasswordError;
+                          });
+                        } else {
+                          setState(() {
+                            errorTextPassword = kPasswordNullError;
+                          });
+                        }
+                      }),
+                ),
+              ),
+              if (errorTextPassword != null)
+                Positioned(
+                  left: 25,
+                  top: height * 0.70,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      errorTextPassword!,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 12.0,
+                      ),
                     ),
                   ),
                 ),
-              ),
               Positioned(
-                left: 35,
-                top: height - 160,
-                child: Container(
-                  width: 330,
-                  height: 75,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: width / 2 - 160,
-                        top: 0,
+                left: width * 0.06,
+                top: height * 0.739,
+                child: isLoading
+                    ? const LoadingButton()
+                    : GestureDetector(
+                        onTap: handleSignIn,
                         child: Container(
-                          width: 270,
+                          width: 330,
                           height: 75,
-                          decoration: ShapeDecoration(
-                            color: Color(0xFF0B2031),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: width / 2 - 160,
+                                top: 0,
+                                child: Container(
+                                  width: 250,
+                                  height: 75,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0xFF0B2031),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const Positioned(
+                                left: 110,
+                                top: 40,
+                                child: SizedBox(
+                                  width: 109,
+                                  height: 43,
+                                  child: Text(
+                                    'LOGIN',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color(0xFFFF9F00),
+                                      fontSize: 20,
+                                      fontFamily: 'Josefin Sans',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0.09,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      const Positioned(
-                        left: 110,
-                        top: 40,
-                        child: SizedBox(
-                          width: 109,
-                          height: 43,
-                          child: Text(
-                            'LOGIN',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Color(0xFFFF9F00),
-                              fontSize: 20,
-                              fontFamily: 'Josefin Sans',
-                              fontWeight: FontWeight.w500,
-                              height: 0.09,
-                              decoration: TextDecoration.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ),
               Positioned(
-                left: 79,
-                top: height - 40,
+                left: 60,
+                top: height * 0.87,
                 child: SizedBox(
                   width: 309,
                   height: 42,
-                  child: Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'Don’t have an Account? ',
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('Don’t have an Account? ',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 20,
                             fontFamily: 'Josefin Sans',
                             fontWeight: FontWeight.w500,
                             height: 0.09,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'Sign Up',
+                          )),
+                      GestureDetector(
+                        onTap: () {
+                          MaterialPageRoute(
+                              builder: ((context) => RegisterFirstPage(
+                                    isConductor: true,
+                                  )));
+                        },
+                        child: Text(
+                          'Sign Up',
                           style: TextStyle(
                             color: Color(0xFFFF9F00),
                             fontSize: 20,
@@ -335,14 +456,14 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
                             height: 0.09,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
               Positioned(
                 left: 146,
-                top: height - 70,
+                top: height * 0.85,
                 child: SizedBox(
                   width: 309,
                   height: 158,

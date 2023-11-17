@@ -22,8 +22,8 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-         appBar: AppBar(
-          leading: IconButton(
+      appBar: AppBar(
+        leading: IconButton(
           color: Colors.black,
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -89,6 +89,9 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
               ),
             ),
             TextField(
+              onTapOutside: (event) {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
               keyboardType: TextInputType.text,
               onChanged: (value) {
                 setState(() {
@@ -111,6 +114,9 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
               ),
             ),
             TextField(
+              onTapOutside: (event) {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
               keyboardType: TextInputType.number,
               onChanged: (value) {
                 setState(() {

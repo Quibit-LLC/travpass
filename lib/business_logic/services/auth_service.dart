@@ -47,52 +47,106 @@ class AuthService extends ChangeNotifier {
     String res = "";
     try {
       // Call the API to authenticate the user
-      var url = Uri.parse(ApiConstants.signInUrl);
-      var headers = {
-        'accept': 'application/json',
-        'content-type': 'application/json'
-      };
+      if (body.containsKey('saccoID')) {
+        var url = Uri.parse(ApiConstants.conductorSignInUrl);
+        var headers = {
+          'accept': 'application/json',
+          'content-type': 'application/json'
+        };
+        //post data to api using HTTP
+        http.Response response = await http.post(
+          url,
+          body: jsonEncode(body),
+          headers: headers,
+        );
+        print(response.body);
 
-      //post data to api using HTTP
-      http.Response response = await http.post(
-        url,
-        body: jsonEncode(body),
-        headers: headers,
-      );
-      print(response.body);
-      // Check if authentication was successful
-      if (response.statusCode == 200) {
-        // print('body: [${response.body}]');
-        final json = jsonDecode(response.body);
-        if (json['status'] == 'success') {
-          // Get the token and user details from the response
-          final token = json['data']['token'];
-          final id = json['data']['passenger']['id'];
-          final userName = json['data']['passenger']['userName'];
-          final emailAddrress = json['data']['passenger']['emailAddress'];
-          final balance = json['data']['passenger']['balance'];
-          //print(userName);
-          // Store the token and user details using SharedPrefHelper
-          await SharedPrefHelper(_prefs).saveUserInfo(
-            token: token,
-            id: id.toString(),
-            userName: userName,
-            email: emailAddrress,
-            balance: balance,
-            isLoggedIn: true,
-          );
-         // print(emailAddrress);
-          // Update the AuthProvider state
-          _isLoggedIn = true;
+        // Check if authentication was successful
+        if (response.statusCode == 200) {
+          // print('body: [${response.body}]');
+          final json = jsonDecode(response.body);
+          if (json['status'] == 'success') {
+            // Get the token and user details from the response
+            final token = json['data']['token'];
+            final id = json['data']['conductor']['id'];
+            final userName = json['data']['conductor']['userName'];
+            final emailAddrress = json['data']['conductor']['emailAddress'];
+            final balance = json['data']['conductor']['balance'];
+            //print(userName);
+            // Store the token and user details using SharedPrefHelper
+            // await SharedPrefHelper(_prefs).saveUserInfo(
+            //   token: token,
+            //   id: id.toString(),
+            //   userName: userName,
+            //   email: emailAddrress,
+            //   balance: balance,
+            //   isLoggedIn: true,
+            // );
+            // print(emailAddrress);
+            // Update the AuthProvider state
+            _isLoggedIn = true;
 
-          res = "ok";
+            res = "ok";
+          } else {
+            // Authentication failed
+            res = jsonDecode(response.body)["message"];
+            // print("Status code: ${response.statusCode}");
+          }
         } else {
-          // Authentication failed
-          res = jsonDecode(response.body)["message"];
-          // print("Status code: ${response.statusCode}");
+          res =
+              jsonDecode(response.body)["message"] ?? "Unknown error occurred";
         }
       } else {
-        res = jsonDecode(response.body)["message"] ?? "Unknown error occurred";
+        var url = Uri.parse(ApiConstants.signInUrl);
+
+        var headers = {
+          'accept': 'application/json',
+          'content-type': 'application/json'
+        };
+
+        //post data to api using HTTP
+        http.Response response = await http.post(
+          url,
+          body: jsonEncode(body),
+          headers: headers,
+        );
+        print(response.body);
+
+        // Check if authentication was successful
+        if (response.statusCode == 200) {
+          // print('body: [${response.body}]');
+          final json = jsonDecode(response.body);
+          if (json['status'] == 'success') {
+            // Get the token and user details from the response
+            final token = json['data']['token'];
+            final id = json['data']['passenger']['id'];
+            final userName = json['data']['passenger']['userName'];
+            final emailAddrress = json['data']['passenger']['emailAddress'];
+            final balance = json['data']['passenger']['balance'];
+            //print(userName);
+            // Store the token and user details using SharedPrefHelper
+            // await SharedPrefHelper(_prefs).saveUserInfo(
+            //   token: token,
+            //   id: id.toString(),
+            //   userName: userName,
+            //   email: emailAddrress,
+            //   balance: balance,
+            //   isLoggedIn: true,
+            // );
+            // print(emailAddrress);
+            // Update the AuthProvider state
+            _isLoggedIn = true;
+
+            res = "ok";
+          } else {
+            // Authentication failed
+            res = jsonDecode(response.body)["message"];
+            // print("Status code: ${response.statusCode}");
+          }
+        } else {
+          res =
+              jsonDecode(response.body)["message"] ?? "Unknown error occurred";
+        }
       }
     } catch (e) {
       if (e is SocketException) {
@@ -109,7 +163,7 @@ class AuthService extends ChangeNotifier {
 
     // Notify the listeners
     notifyListeners();
-   
+
     return res;
   }
 
@@ -117,50 +171,101 @@ class AuthService extends ChangeNotifier {
     String res = "";
 
     try {
-      // Call the API to authenticate the user
-      var url = Uri.parse(ApiConstants.signUpUrl);
-      var headers = {
-        'accept': 'application/json',
-        'content-type': 'application/json',
-      };
+      if (body.containsKey('saccoID')) {
+        // Call the API to authenticate the user
+        var url = Uri.parse(ApiConstants.signUpUrl);
+        var headers = {
+          'accept': 'application/json',
+          'content-type': 'application/json',
+        };
 
-      // Post data to the API using HTTP
-      http.Response response = await http.post(
-        url,
-        body: jsonEncode(body),
-        headers: headers,
-      );
+        // Post data to the API using HTTP
+        http.Response response = await http.post(
+          url,
+          body: jsonEncode(body),
+          headers: headers,
+        );
 
-      print("=------------------> ${response.statusCode}");
-      print("=------------------> ${response.body}");
+        print("=------------------> ${response.statusCode}");
+        print("=------------------> ${response.body}");
 
-      // Check the response status code
-      if (response.statusCode == 200) {
-        final json = jsonDecode(response.body);
+        // Check the response status code
+        if (response.statusCode == 200) {
+          final json = jsonDecode(response.body);
 
-        if (json['success'] == false) {
-          res = json['message'];
+          if (json['status'] != 'success') {
+            res = json['message'];
 
-          // Check for specific errors in the "errors" field
-          if (json.containsKey('errors')) {
-            Map<String, dynamic> errors = json['errors'];
-            errors.forEach((field, errorList) {
-              // Capitalize the first letter of each word and replace underscores with spaces
-              String formattedField = field.splitMapJoin('_',
-                  onMatch: (m) => ' ',
-                  onNonMatch: (n) =>
-                      n.isEmpty ? '' : n[0].toUpperCase() + n.substring(1));
+            // Check for specific errors in the "errors" field
+            if (json.containsKey('errors')) {
+              Map<String, dynamic> errors = json['errors'];
+              errors.forEach((field, errorList) {
+                // Capitalize the first letter of each word and replace underscores with spaces
+                String formattedField = field.splitMapJoin('_',
+                    onMatch: (m) => ' ',
+                    onNonMatch: (n) =>
+                        n.isEmpty ? '' : n[0].toUpperCase() + n.substring(1));
 
-              for (var error in errorList) {
-                res += " $formattedField Error: $error";
-              }
-            });
+                for (var error in errorList) {
+                  res += " $formattedField Error: $error";
+                }
+              });
+            }
+          } else {
+            res = "ok"; // Sign-up was successful
           }
         } else {
-          res = "ok"; // Sign-up was successful
+          res =
+              jsonDecode(response.body)["message"] ?? "Unknown error occurred";
         }
-      } else {
-        res = jsonDecode(response.body)["message"] ?? "Unknown error occurred";
+      }
+       else {
+        // Call the API to authenticate the user
+        var url = Uri.parse(ApiConstants.passengerSignUpUrl);
+        var headers = {
+          'accept': 'application/json',
+          'content-type': 'application/json',
+        };
+
+        // Post data to the API using HTTP
+        http.Response response = await http.post(
+          url,
+          body: jsonEncode(body),
+          headers: headers,
+        );
+
+        print("=------------------> ${response.statusCode}");
+        print("=------------------> ${response.body}");
+
+        // Check the response status code
+        if (response.statusCode == 200) {
+          final json = jsonDecode(response.body);
+
+          if (json['status'] != 'success') {
+            res = json['message'];
+
+            // Check for specific errors in the "errors" field
+            if (json.containsKey('errors')) {
+              Map<String, dynamic> errors = json['errors'];
+              errors.forEach((field, errorList) {
+                // Capitalize the first letter of each word and replace underscores with spaces
+                String formattedField = field.splitMapJoin('_',
+                    onMatch: (m) => ' ',
+                    onNonMatch: (n) =>
+                        n.isEmpty ? '' : n[0].toUpperCase() + n.substring(1));
+
+                for (var error in errorList) {
+                  res += " $formattedField Error: $error";
+                }
+              });
+            }
+          } else {
+            res = "ok"; // Sign-up was successful
+          }
+        } else {
+          res =
+              jsonDecode(response.body)["message"] ?? "Unknown error occurred";
+        }
       }
     } catch (e) {
       if (e is SocketException) {

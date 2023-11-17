@@ -7,6 +7,8 @@ class ApiConstants {
 
   static String baseUrl = localUrl;
   static String signInUrl = '$baseUrl/passengerLogin';
-  static String signUpUrl = '$baseUrl/users/auth/sign-up/';
+  static String conductorSignInUrl = '$baseUrl/login';
+
+  static String signUpUrl = '$baseUrl/register';
+  static String passengerSignUpUrl = '$baseUrl/passengerRegister';
 }
- 

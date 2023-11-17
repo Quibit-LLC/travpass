@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:travpass/auth_pages/conductor_login.dart';
+import 'package:travpass/auth_pages/passenger_login.dart';
 
-class IntroPage extends StatelessWidget {
+class IntroPage extends StatefulWidget {
   const IntroPage({super.key});
 
+  @override
+  State<IntroPage> createState() => _IntroPageState();
+}
+
+class _IntroPageState extends State<IntroPage> {
+  bool _isConductor = true;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -33,15 +41,29 @@ class IntroPage extends StatelessWidget {
               Positioned(
                 left: width / 2 + 20,
                 top: height - 400,
-                child: Container(
-                  width: 180,
-                  height: 173,
-                  decoration: ShapeDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("images/conductor.jpg"),
-                      fit: BoxFit.fill,
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      _isConductor = true;
+                    });
+                  },
+                  child: Container(
+                    width: 180,
+                    height: 173,
+                    foregroundDecoration: ShapeDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("images/conductor.jpg"),
+                        fit: BoxFit.fill,
+                      ),
+                      shape: CircleBorder(),
                     ),
-                    shape: OvalBorder(),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          style: BorderStyle.none,
+                          strokeAlign: BorderSide.strokeAlignOutside),
+                      color:
+                          _isConductor ? Color(0xFFFF9F00) : Colors.transparent,
+                    ),
                   ),
                 ),
               ),
@@ -70,7 +92,7 @@ class IntroPage extends StatelessWidget {
                 left: 13,
                 top: height - 400,
                 child: Container(
-                  width: 192,
+                  width: 180,
                   height: 175,
                   child: Stack(
                     children: [
@@ -81,7 +103,9 @@ class IntroPage extends StatelessWidget {
                           width: 180,
                           height: 173,
                           decoration: ShapeDecoration(
-                            color: Colors.white,
+                            color: !_isConductor
+                                ? Color(0xFFFF9F00)
+                                : Colors.white,
                             shape: OvalBorder(),
                           ),
                         ),
@@ -89,15 +113,31 @@ class IntroPage extends StatelessWidget {
                       Positioned(
                         left: 11,
                         top: 0,
-                        child: Container(
-                          width: 165,
-                          height: 175,
-                          decoration: ShapeDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("images/passengers.png"),
-                              fit: BoxFit.fill,
+                        child: InkWell(
+                          focusColor: Color(0xFFFF9F00),
+                          onTap: () {
+                            setState(() {
+                              _isConductor = false;
+                            });
+                          },
+                          child: Container(
+                            width: 175,
+                            height: 175,
+                            foregroundDecoration: ShapeDecoration(
+                              image: DecorationImage(
+                                image: AssetImage("images/passengers.png"),
+                                fit: BoxFit.fill,
+                              ),
+                              shape: CircleBorder(),
                             ),
-                            shape: OvalBorder(),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  style: BorderStyle.none,
+                                  strokeAlign: BorderSide.strokeAlignInside),
+                              color: !_isConductor
+                                  ? Color(0xFFFF9F00)
+                                  : Colors.transparent,
+                            ),
                           ),
                         ),
                       ),
@@ -108,40 +148,57 @@ class IntroPage extends StatelessWidget {
               Positioned(
                 left: 65,
                 top: height - 150,
-                child: Container(
-                  width: 333,
-                  height: 75,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Container(
-                          width: 300,
-                          height: 75,
-                          decoration: ShapeDecoration(
-                            color: Color(0xFFFF9F00),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
+                child: GestureDetector(
+                  onTap: () {
+                    if (_isConductor) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) =>
+                                  const ConductorLoginPage())));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) =>
+                                  const PassengerLoginPage())));
+                    }
+                  },
+                  child: Container(
+                    width: 333,
+                    height: 75,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          left: 0,
+                          top: 0,
+                          child: Container(
+                            width: 300,
+                            height: 75,
+                            decoration: ShapeDecoration(
+                              color: Color(0xFFFF9F00),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Positioned(
-                        left: 100,
-                        top: 30,
-                        child: Text(
-                          'CONTINUE',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontFamily: 'Josefin Sans',
-                            fontWeight: FontWeight.w500,
-                            height: 0.09,
+                        Positioned(
+                          left: 100,
+                          top: 30,
+                          child: Text(
+                            'CONTINUE',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontFamily: 'Josefin Sans',
+                              fontWeight: FontWeight.w500,
+                              height: 0.09,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
