@@ -46,28 +46,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
                   ),
                 ),
               ),
-            ),
-            Positioned(
-              left: 31,
-              top: 231,
-              child: Container(
-                width: 381.79,
-                height: 411.09,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 63,
-                      top: 75,
-                      child: Container(
-                        width: 247,
-                        height: 273,
-                        decoration: BoxDecoration(),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            ),           
             Positioned(
               left: 45,
               top: 102,

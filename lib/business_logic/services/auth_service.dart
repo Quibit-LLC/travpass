@@ -190,7 +190,7 @@ class AuthService extends ChangeNotifier {
         print("=------------------> ${response.body}");
 
         // Check the response status code
-        if (response.statusCode == 200) {
+        if (response.statusCode == 201) {
           final json = jsonDecode(response.body);
 
           if (json['status'] != 'success') {
@@ -218,8 +218,7 @@ class AuthService extends ChangeNotifier {
           res =
               jsonDecode(response.body)["message"] ?? "Unknown error occurred";
         }
-      }
-       else {
+      } else {
         // Call the API to authenticate the user
         var url = Uri.parse(ApiConstants.passengerSignUpUrl);
         var headers = {
@@ -238,7 +237,7 @@ class AuthService extends ChangeNotifier {
         print("=------------------> ${response.body}");
 
         // Check the response status code
-        if (response.statusCode == 200) {
+        if (response.statusCode == 201) {
           final json = jsonDecode(response.body);
 
           if (json['status'] != 'success') {

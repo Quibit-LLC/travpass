@@ -88,7 +88,7 @@ class GeneratedQRPage extends StatelessWidget {
             ),
             InkWell(
               onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: ((context) => const MainPage()))),
+                  MaterialPageRoute(builder: ((context) =>MainPage(isConductor: true,)))),
               child: Container(
                 width: 250,
                 height: 56,

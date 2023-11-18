@@ -598,26 +598,20 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
                       Text('Already have an Account? ',
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 20,
+                            fontSize: 18,
                             fontFamily: 'Josefin Sans',
                             fontWeight: FontWeight.w500,
                             height: 0.09,
                           )),
-                      GestureDetector(
-                        onTap: () {
-                          if (widget.isConductor) {
-                            MaterialPageRoute(
-                                builder: ((context) => ConductorLoginPage()));
-                          } else {
-                            MaterialPageRoute(
-                                builder: ((context) => PassengerLoginPage()));
-                          }
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
                         },
                         child: Text(
                           'Log In',
                           style: TextStyle(
                             color: Color(0xFFFF9F00),
-                            fontSize: 20,
+                            fontSize: 18,
                             fontFamily: 'Josefin Sans',
                             fontWeight: FontWeight.w500,
                             height: 0.09,
@@ -643,7 +637,8 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
     // validating user inputs credentials for sign up before submitting the data to the server
     if (_emailController.text.isEmpty ||
         _passwordController.text.isEmpty ||
-        _nameController.text.isEmpty) {
+        _nameController.text.isEmpty ||
+        _passwordController.text != _passConfirmController.text) {
       if (_nameController.text.isEmpty) {
         errorTextName = kFullNameNullError;
       }
@@ -673,9 +668,10 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
       // valid input
       if (widget.isConductor) {
         Map<String, dynamic> body = {
-          'name': _nameController.text,
-          'email': _emailController.text,
+          'userName': _nameController.text,
+          'emailAddress': _emailController.text,
           'password': _passwordController.text,
+          'password_confirmation': _passConfirmController.text,
           'phoneNumber': _phoneController.text,
           'saccoID': _saccoController.text,
         };
@@ -685,7 +681,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: ((context) => const RegisterSuccess())));
+                  builder: ((context) => RegisterSuccess(isConductor: true,))));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -706,9 +702,10 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
         return;
       } else {
         Map<String, dynamic> body = {
-          'name': _nameController.text,
-          'email': _emailController.text,
+          'userName': _nameController.text,
+          'emailAddress': _emailController.text,
           'password': _passwordController.text,
+          'password_confirmation': _passConfirmController.text,
           'phoneNumber': _phoneController.text,
         };
 
@@ -720,7 +717,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: ((context) => const RegisterSuccess())));
+                  builder: ((context) => RegisterSuccess(isConductor: false,))));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

@@ -1,7 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:travpass/auth_pages/conductor_login.dart';
+import 'package:travpass/auth_pages/passenger_login.dart';
 
 class RegisterSuccess extends StatelessWidget {
-  const RegisterSuccess({super.key});
+  bool isConductor = true;
+  RegisterSuccess({
+    Key? key,
+    required this.isConductor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +39,7 @@ class RegisterSuccess extends StatelessWidget {
             ),
             Positioned(
               left: 87,
-              top: height - 600,
+              top: height * 0.295,
               child: Container(
                 width: 255,
                 height: 255,
@@ -49,7 +56,7 @@ class RegisterSuccess extends StatelessWidget {
             ),
             Positioned(
               left: 92,
-              top: height - 300,
+              top: height * 0.65,
               child: SizedBox(
                 width: 304,
                 height: 62,
@@ -67,7 +74,7 @@ class RegisterSuccess extends StatelessWidget {
             ),
             Positioned(
               left: 40,
-              top: height - 230,
+              top: height * 0.75,
               child: SizedBox(
                 width: 380,
                 height: 37,
@@ -84,10 +91,10 @@ class RegisterSuccess extends StatelessWidget {
               ),
             ),
             Positioned(
-              left: 54,
-              top: height - 150,
+              left: 90,
+              top: height * 0.825,
               child: Container(
-                width: 300,
+                width: 250,
                 height: 81,
                 decoration: ShapeDecoration(
                   color: Color(0xFFFF9F00),
@@ -98,21 +105,36 @@ class RegisterSuccess extends StatelessWidget {
               ),
             ),
             Positioned(
-              left: 124,
-              top: height - 130,
+              left: 180,
+              top: height * 0.85,
               child: SizedBox(
                 width: 240,
                 height: 40,
-                child: Text(
-                  'EXPLORE MENU',
-                  // textAlign: TextAlign.center,
-                  semanticsLabel: "EXPLORE MENU",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w500,
-                    height: 0,
+                child: GestureDetector(
+                  onTap: () {
+                    if (isConductor) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => ConductorLoginPage())));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => PassengerLoginPage())));
+                    }
+                  },
+                  child: Text(
+                    'LOGIN',
+                    // textAlign: TextAlign.center,
+                    semanticsLabel: "PROCEED TO LOGIN",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w500,
+                      height: 0,
+                    ),
                   ),
                 ),
               ),

@@ -132,9 +132,9 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                 child: SizedBox(
                   width: 350,
                   child: TextFormField(
-                     onTapOutside: (event) {
-                        FocusManager.instance.primaryFocus?.unfocus();
-                      },
+                    onTapOutside: (event) {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    },
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
@@ -203,7 +203,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                 child: SizedBox(
                   width: 350,
                   child: TextField(
-                     onTapOutside: (event) {
+                      onTapOutside: (event) {
                         FocusManager.instance.primaryFocus?.unfocus();
                       },
                       controller: _passwordController,
@@ -234,8 +234,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                             errorTextPassword = kPasswordNullError;
                           });
                         }
-                      }
-                      ),
+                      }),
                 ),
               ),
               if (errorTextPassword != null)
@@ -306,44 +305,6 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                       ),
               ),
               Positioned(
-                left: 60,
-                top: height * 0.85,
-                child: SizedBox(
-                  width: 309,
-                  height: 42,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Don’t have an Account? ',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontFamily: 'Josefin Sans',
-                            fontWeight: FontWeight.w500,
-                            height: 0.09,
-                          )),
-                      GestureDetector(
-                        onTap: () {
-                          MaterialPageRoute(
-                              builder: ((context) =>
-                                  RegisterFirstPage(isConductor: false,)));
-                        },
-                        child: Text(
-                          'Sign Up',
-                          style: TextStyle(
-                            color: Color(0xFFFF9F00),
-                            fontSize: 20,
-                            fontFamily: 'Josefin Sans',
-                            fontWeight: FontWeight.w500,
-                            height: 0.09,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
                 left: 100,
                 top: height * 0.83,
                 child: SizedBox(
@@ -358,6 +319,48 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                       fontWeight: FontWeight.w500,
                       height: 0.06,
                     ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 55,
+                top: height * 0.85,
+                child: SizedBox(
+                  width: 309,
+                  height: 42,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Don’t have an Account? ',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontFamily: 'Josefin Sans',
+                            fontWeight: FontWeight.w500,
+                            height: 0.09,
+                          )),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => RegisterFirstPage(
+                                isConductor: false,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Sign Up',
+                          style: TextStyle(
+                            color: Color(0xFFFF9F00),
+                            fontSize: 18,
+                            fontFamily: 'Josefin Sans',
+                            fontWeight: FontWeight.w500,
+                            height: 0.09,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -403,7 +406,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
           .loginUser(body);
       if (result == "ok") {
         Navigator.push(context,
-            MaterialPageRoute(builder: ((context) => const MainPage())));
+            MaterialPageRoute(builder: ((context) => MainPage(isConductor: false,))));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

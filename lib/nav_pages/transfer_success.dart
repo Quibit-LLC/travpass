@@ -79,7 +79,7 @@ class TransferSuccess extends StatelessWidget {
                 SizedBox(height: 20),
                 InkWell(
                   onTap: () => Navigator.push(context,
-                      MaterialPageRoute(builder: ((context) => MainPage()))),
+                      MaterialPageRoute(builder: ((context) => MainPage(isConductor: false,)))),
                   child: Container(
                     width: 327,
                     height: 56,

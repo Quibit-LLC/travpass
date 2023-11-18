@@ -5,25 +5,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:travpass/auth_pages/intro.dart';
 
-
 import 'package:travpass/business_logic/services/auth_service.dart';
+import 'package:travpass/nav_pages/generate_qr.dart';
+import 'package:travpass/nav_pages/main_page.dart';
+import 'package:travpass/nav_pages/scan_qr.dart';
 
-// import 'package:travpass/auth_pages/register_conductor.dart';
-
-// import 'package:travpass/auth_pages/register_passenger.dart';
-// import 'package:travpass/auth_pages/register_success.dart';
-// import 'package:travpass/auth_pages/register_page_one.dart';
-// import 'package:travpass/auth_pages/conductor_login.dart';
-// import 'package:travpass/nav_pages/conductor_dashboard.dart';
-// import 'package:travpass/nav_pages/main_page.dart';
-// import 'package:travpass/auth_pages/passenger_login.dart';
-
-void main() async{
-
+void main() async {
   await Hive.initFlutter();
 
   await Hive.openBox("Transaction_Database");
-    // Ensure Flutter Widgets are initialized
+  // Ensure Flutter Widgets are initialized
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize Flutter Secure Storage
@@ -45,7 +36,7 @@ void main() async{
 }
 
 class MyApp extends StatefulWidget {
-   // final FlutterSecureStorage storage;
+  // final FlutterSecureStorage storage;
 
   // Pass SharedPreferences
   final SharedPreferences prefs;
@@ -57,28 +48,27 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-   // final FlutterSecureStorage storage;
+  // final FlutterSecureStorage storage;
 
   // Store SharedPreferences
   final SharedPreferences prefs;
 
   _MyAppState({required this.prefs});
-  
+
   @override
   void initState() {
     super.initState();
   }
-  
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-         theme: ThemeData(
+        theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: IntroPage());
+        home: MainPage(isConductor: false,));
   }
 }

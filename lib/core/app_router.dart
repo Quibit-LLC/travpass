@@ -42,8 +42,8 @@ class AppRouter {
     GoRoute(
       name: AppRoutes.mainActivityRoute,
       path: mainActivityPath,
-      pageBuilder: (context, state) => const CupertinoPage(
-        child: MainPage(),
+      pageBuilder: (context, state) => CupertinoPage(
+        child: MainPage(isConductor: false)
       ),
     ),
   ]);

@@ -83,7 +83,7 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
             .loginUser(body);
         if (result == "ok") {
           Navigator.push(context,
-              MaterialPageRoute(builder: ((context) => const MainPage())));
+              MaterialPageRoute(builder: ((context) => MainPage(isConductor: true,))));
           // navigateToMainActivity(context);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -422,46 +422,6 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
                       ),
               ),
               Positioned(
-                left: 60,
-                top: height * 0.87,
-                child: SizedBox(
-                  width: 309,
-                  height: 42,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text('Don’t have an Account? ',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontFamily: 'Josefin Sans',
-                            fontWeight: FontWeight.w500,
-                            height: 0.09,
-                          )),
-                      GestureDetector(
-                        onTap: () {
-                          MaterialPageRoute(
-                              builder: ((context) => RegisterFirstPage(
-                                    isConductor: true,
-                                  )));
-                        },
-                        child: Text(
-                          'Sign Up',
-                          style: TextStyle(
-                            color: Color(0xFFFF9F00),
-                            fontSize: 20,
-                            fontFamily: 'Josefin Sans',
-                            fontWeight: FontWeight.w500,
-                            height: 0.09,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
                 left: 146,
                 top: height * 0.85,
                 child: SizedBox(
@@ -476,6 +436,49 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
                       fontWeight: FontWeight.w500,
                       height: 0.06,
                     ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 55,
+                top: height * 0.87,
+                child: SizedBox(
+                  width: 309,
+                  height: 42,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('Don’t have an Account? ',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontFamily: 'Josefin Sans',
+                            fontWeight: FontWeight.w500,
+                            height: 0.09,
+                          )),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => RegisterFirstPage(
+                                isConductor: true,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Sign Up',
+                          style: TextStyle(
+                            color: Color(0xFFFF9F00),
+                            fontSize: 18,
+                            fontFamily: 'Josefin Sans',
+                            fontWeight: FontWeight.w500,
+                            height: 0.09,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
