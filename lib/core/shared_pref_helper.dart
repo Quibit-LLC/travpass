@@ -10,45 +10,53 @@ class SharedPrefHelper {
   // Keys for storing user information
   static const String tokenKey = 'token';
   static const String idKey = 'id';
-  static const String nameKey = 'name';
-  static const String emailKey = 'email';
+  static const String nameKey = 'userName';
+  static const String emailKey = 'emailAddress';
   static const String isLoggedInKey = 'isLoggedIn';
-  static const String balanceKey = 'balance';
+  // static const String balanceKey = 'balance';
 
   // Function to save user information
   Future<void> saveUserInfo({
     required String token,
     required String id,
     required String userName,
-    required String email,
-    required double balance,
+    required String emailAddress,
+    // required double balance,
     required bool isLoggedIn,
   }) async {
-    print(email);
-    await _prefs.setString(tokenKey, token);
-    await _prefs.setString(idKey, id);
-    await _prefs.setString(nameKey, userName);
-    await _prefs.setString(emailKey, email);
-    await _prefs.setDouble(balanceKey, balance);
-    await _prefs.setBool(isLoggedInKey, isLoggedIn);
-    print(userName);
+    try {
+      await _prefs.setString(tokenKey, token);
+      await _prefs.setString(idKey, id);
+      await _prefs.setString(nameKey, userName);
+      await _prefs.setString(emailKey, emailAddress);
+      // await _prefs.setDouble(balanceKey, balance);
+      await _prefs.setBool(isLoggedInKey, isLoggedIn);
+    } catch (e) {
+      print("Error saving user info to SharedPreferences: $e");
+      // Handle the error appropriately, e.g., throw an exception or log it.
+    }
   }
 
   // Function to retrieve user details
   Future<User?> getUserDetails() async {
     final id = _prefs.getString(idKey);
     final userName = _prefs.getString(nameKey);
-    final email = _prefs.getString(emailKey);
+    final emailAddress = _prefs.getString(emailKey);
     final token = _prefs.getString(tokenKey);
-    final balance = _prefs.getString(balanceKey);
+    // final balance = _prefs.getDouble(balanceKey);
 
-    if (id != null && userName != null && email != null && token != null) {
+    if (id != null &&
+        userName != null &&
+        emailAddress != null &&
+        token != null 
+        // balance != null
+        ) {
       return User(
-        id: int.tryParse(id) ?? 0, // Convert id to int or use a default value
-        name: userName,
-        email: email,
+        id: id,
+        userName: userName,
+        emailAddress: emailAddress,
         token: token,
-        balance: double.tryParse(balance!) ?? 0,
+        // balance: balance,
       );
     } else {
       return null;
@@ -61,7 +69,8 @@ class SharedPrefHelper {
     await _prefs.remove(idKey);
     await _prefs.remove(nameKey);
     await _prefs.remove(emailKey);
-    await _prefs.remove(isLoggedInKey);
+    // await _prefs.remove(balanceKey);
+    await _prefs.setBool(isLoggedInKey, false);
   }
 
   // Function to check login status

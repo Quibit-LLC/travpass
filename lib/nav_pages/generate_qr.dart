@@ -1,5 +1,7 @@
 import 'dart:convert';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:travpass/business_logic/models/user.dart';
+import 'package:travpass/core/shared_pref_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:travpass/nav_pages/generated_qr.dart';
 
@@ -11,8 +13,19 @@ class GenerateQRPage extends StatefulWidget {
 }
 
 class _GenerateQRPageState extends State<GenerateQRPage> {
+   late Future<User?> userFuture;
+
+  _GenerateQRPageState() {
+    userFuture = getUserDetails();
+  }
+
+  Future<User?> getUserDetails() async {
+    return SharedPrefHelper(await SharedPreferences.getInstance())
+        .getUserDetails();
+  }
+
   late var mapString = {
-    "conductorID": "JHGSJG",
+    "conductorID": "",
     "amount": 0,
     "routeName": "",
   };
@@ -21,6 +34,12 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
 
   @override
   Widget build(BuildContext context) {
+     return FutureBuilder<User?>(
+      future: userFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData) {
+            User user = snapshot.data!;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -121,6 +140,7 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
               onChanged: (value) {
                 setState(() {
                   mapString["amount"] = value;
+                  mapString["conductorID"] = '${user.id}';
                   data = jsonEncode(mapString);
                 });
               },
@@ -179,6 +199,24 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
           ],
         ),
       ),
+    );
+  } else {
+            // Handle the case when user information is not available
+            return Scaffold(
+              body: Center(
+                child: Text('User information not available.'),
+              ),
+            );
+          }
+        } else {
+          // Handle loading state
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      },
     );
   }
 }

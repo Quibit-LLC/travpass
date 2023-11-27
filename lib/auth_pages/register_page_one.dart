@@ -66,6 +66,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Container(
           width: width,
           height: height,
@@ -681,7 +682,9 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: ((context) => RegisterSuccess(isConductor: true,))));
+                  builder: ((context) => RegisterSuccess(
+                        isConductor: true,
+                      ))));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -717,7 +720,9 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: ((context) => RegisterSuccess(isConductor: false,))));
+                  builder: ((context) => RegisterSuccess(
+                        isConductor: false,
+                      ))));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

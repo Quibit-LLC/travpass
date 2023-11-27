@@ -23,7 +23,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
     Provider.of<TransactionData>(context, listen: false).prepareData();
   }
 
-  void addNewExpense() {
+  void addNewTransaction() {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -79,7 +79,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
         backgroundColor: Colors.grey[300],
         floatingActionButton: FloatingActionButton(
             backgroundColor: Colors.white,
-            onPressed: addNewExpense,
+            onPressed: addNewTransaction,
             child: Icon(Icons.add)),
         body: ListView(
           children: [

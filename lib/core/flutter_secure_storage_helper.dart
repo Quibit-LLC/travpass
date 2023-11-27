@@ -6,50 +6,51 @@ class FlutterSecureStorageHelper {
 
   FlutterSecureStorageHelper(this._storage);
 
-
   // Keys for storing user information
   static const String tokenKey = 'token';
   static const String idKey = 'id';
-  static const String nameKey = 'name';
-  static const String emailKey = 'email';
-   static const String balanceKey = 'balance';
+  static const String nameKey = 'userName';
+  static const String emailKey = 'emailAddress';
+  // static const String balanceKey = 'balance';
   static const String isLoggedInKey = 'isLoggedIn';
- 
 
   // Function to save user information
   Future<void> saveUserInfo({
     required String token,
     required String id,
-    required String name,
-    required String email,
-    required double balance,
+    required String userName,
+    required String emailAddress,
+    // required double balance,
     required bool isLoggedIn,
   }) async {
     await _storage.write(key: tokenKey, value: token);
     await _storage.write(key: idKey, value: id);
-    await _storage.write(key: nameKey, value: name);
-    await _storage.write(key: emailKey, value: email);
-     await _storage.write(key: balanceKey, value: balance.toString());
+    await _storage.write(key: nameKey, value: userName);
+    await _storage.write(key: emailKey, value: emailAddress);
+    // await _storage.write(key: balanceKey, value: balance.toString());
     await _storage.write(key: isLoggedInKey, value: isLoggedIn.toString());
   }
-
 
   // Function to retrieve user details
   Future<User?> getUserDetails() async {
     final id = await _storage.read(key: idKey);
-    final name = await _storage.read(key: nameKey);
-    final email = await _storage.read(key: emailKey);
-    final balance = _storage.read(key: balanceKey);
+    final userName = await _storage.read(key: nameKey);
+    final emailAddress = await _storage.read(key: emailKey);
+    // final balance = await _storage.read(key: balanceKey);
     final token = await _storage.read(key: tokenKey);
 
-    if (id != null && name != null && email != null && token != null) {
+    if (id != null &&
+        userName != null &&
+        emailAddress != null &&
+        token != null 
+        ) {
       return User(
-          // id: id,
-          id: int.tryParse(id) ?? 0, // Convert id to int or use a default value
-          name: name,
-          balance: double.tryParse(balance as String) ?? 0,
-          email: email,
-          token: token);
+        id: id,
+        userName: userName,
+        // balance: double.tryParse(balance) ?? 0.0, // Ensure balance is treated as a double
+        emailAddress: emailAddress,
+        token: token,
+      );
     } else {
       return null;
     }
@@ -61,27 +62,13 @@ class FlutterSecureStorageHelper {
     await _storage.delete(key: idKey);
     await _storage.delete(key: nameKey);
     await _storage.delete(key: emailKey);
+    // await _storage.delete(key: balanceKey);
     await _storage.delete(key: isLoggedInKey);
   }
 
-  // Function to check login status
-  // Future<bool> isLoggedIn() async {
-  //   final value = await _storage.read(key: isLoggedInKey);
-  //   return value != null && value == 'true';
-  // }
-
   Future<bool> isLoggedIn() async {
     final value = await _storage.read(key: isLoggedInKey);
-    // if (value != null && value == 'true') {
-    //   return true;
-    // } else {
-    //   return false;
-    // }
+
     return value?.toLowerCase() == 'true';
   }
-
-
-
-
-
 }

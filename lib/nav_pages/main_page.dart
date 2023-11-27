@@ -6,10 +6,7 @@ import 'package:travpass/nav_pages/conductor_dashboard.dart';
 import 'package:travpass/nav_pages/generate_qr.dart';
 import 'package:travpass/nav_pages/passenger_dashboard.dart';
 import 'package:travpass/nav_pages/scan_qr.dart';
-// import 'package:travpass/nav_pages/generate_qr.dart';
-// import 'package:travpass/nav_pages/conductor_dashboard.dart';
-// import 'package:travpass/nav_pages/passenger_dashboard.dart';
-// import 'package:travpass/nav_pages/scan_qr.dart';
+
 
 class MainPage extends StatefulWidget {
   MainPage({required this.isConductor});
@@ -20,29 +17,39 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  @override
-  Widget build(BuildContext context) {
-    List pages = [
-      widget.isConductor
-          ? const ConductorDashboard()
-          : const PassengerDashboard(),
-      ChangeNotifierProvider(
-          create: (context) => TransactionData(),
-          builder: (context, child) => const StatisticsPage()),
-      widget.isConductor ? const GenerateQRPage() : const ScanQRPage(),
-      // const BarItemPage(),
-      // const SearchPage(),
-      // const MyPage(),
-    ];
     int currentIndex = 0;
 
     void onTap(int index) {
       setState(() {
         currentIndex = index;
-        
       });
     }
 
+  @override
+  Widget build(BuildContext context) {
+    List pages = [];
+    if (widget.isConductor) {
+      pages = [
+        const ConductorDashboard(),
+
+        ChangeNotifierProvider(
+            create: (context) => TransactionData(),
+            builder: (context, child) => const StatisticsPage()),
+        const GenerateQRPage(),
+
+      
+      ];
+    } else {
+      pages = [
+        const PassengerDashboard(),
+        ChangeNotifierProvider(
+            create: (context) => TransactionData(),
+            builder: (context, child) => const StatisticsPage()),
+        const ScanQRPage(),
+        const GenerateQRPage(),
+      ];
+    }
+  
     return Scaffold(
       backgroundColor: Color(0xFF0B2031),
       body: pages[currentIndex],

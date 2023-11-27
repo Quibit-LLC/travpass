@@ -1,26 +1,26 @@
 class User {
-  final int id; // If your API provides a unique user ID
-  final String name;
-  final String email;
+  final String id; // If your API provides a unique user ID
+  final String userName;
+  final String emailAddress;
   final String token;
-  final double balance;
+  // final double balance;
 
   User({
     required this.id,
-    required this.name,
-    required this.email,
+    required this.userName,
+    required this.emailAddress,
     required this.token,
-    required this.balance,
+    // required this.balance,
   });
 
   //When receiving JSON responses from the server, you can create a User object using the fromJson factory constructor
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],
-      name: json['name'],
-      email: json['email'],
+      userName: json['userName'],
+      emailAddress: json['emailAddress'],
       token: json['token'],
-      balance: json['balance'],
+      // balance: json['balance'],
     );
   }
 
@@ -28,10 +28,10 @@ class User {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'fullName': name,
-      'email': email,
+      'userName': userName,
+      'emailAddress': emailAddress,
       'token': token,
-      'balance':balance,
+      // 'balance': balance,
     };
   }
 }

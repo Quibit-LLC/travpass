@@ -6,9 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travpass/auth_pages/intro.dart';
 
 import 'package:travpass/business_logic/services/auth_service.dart';
-import 'package:travpass/nav_pages/generate_qr.dart';
-import 'package:travpass/nav_pages/main_page.dart';
-import 'package:travpass/nav_pages/scan_qr.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -21,18 +18,23 @@ void main() async {
   // final storage = FlutterSecureStorage();
 
   // Initialize SharedPreferences
-  final prefs = await SharedPreferences.getInstance();
+  try {
+    final prefs = await SharedPreferences.getInstance();
 
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => AuthService(prefs),
-        ),
-      ],
-      child: MyApp(prefs: prefs),
-    ),
-  );
+    runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => AuthService(prefs),
+          ),
+        ],
+        child: MyApp(prefs: prefs),
+      ),
+    );
+  } catch (e) {
+    print("Error initializing SharedPreferences: $e");
+    // Handle the error appropriately, e.g., show an error message to the user
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -69,6 +71,6 @@ class _MyAppState extends State<MyApp> {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: MainPage(isConductor: false,));
+        home: IntroPage());
   }
 }
