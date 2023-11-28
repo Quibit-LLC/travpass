@@ -48,6 +48,9 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   go_router: ^11.1.2
   shared_preferences: ^2.2.2
+  intl: ^0.18.1
+  flutter_contacts: ^1.1.7+1
+ 
  
 
 dev_dependencies:

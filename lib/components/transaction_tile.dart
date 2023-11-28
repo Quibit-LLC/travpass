@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class ExpenseTile extends StatelessWidget {
+class TransactionTile extends StatelessWidget {
   final String name;
   final String amount;
   final DateTime dateTime;
 
-  const ExpenseTile(
+  const TransactionTile(
       {super.key,
       required this.name,
       required this.amount,

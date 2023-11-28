@@ -13,4 +13,6 @@ class ApiConstants {
   static String passengerSignUpUrl = '$baseUrl/passengerRegister';
 
   static String transactionUrl = '$baseUrl/initiateTransaction';
+
+  static String getTransactionsUrl = '$baseUrl/allTransactions';
 }

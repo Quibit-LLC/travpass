@@ -52,7 +52,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
     if (newTransactionNameController.text.isNotEmpty &&
         newTransactionAmountController.text.isNotEmpty) {
       TransactionItem newTransaction = TransactionItem(
-          name: newTransactionNameController.text,
+          routeName: newTransactionNameController.text,
           amount: newTransactionAmountController.text,
           dateTime: DateTime.now());
       Provider.of<TransactionData>(context, listen: false)
@@ -91,8 +91,8 @@ class _StatisticsPageState extends State<StatisticsPage> {
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemCount: value.getAllTransactionList().length,
-              itemBuilder: (context, index) => ExpenseTile(
-                name: value.getAllTransactionList()[index].name,
+              itemBuilder: (context, index) => TransactionTile(
+                name: value.getAllTransactionList()[index].routeName,
                 dateTime: value.getAllTransactionList()[index].dateTime,
                 amount: value.getAllTransactionList()[index].amount,
               ),

@@ -1,8 +1,8 @@
 class TransactionItem {
-  final String name;
+  final String routeName;
   final String amount;
   final DateTime dateTime;
 
   TransactionItem(
-      {required this.name, required this.amount, required this.dateTime});
+      {required this.routeName, required this.amount, required this.dateTime});
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:travpass/business_logic/api/api_constants.dart';
+import 'package:travpass/business_logic/models/transaction.dart';
 import 'package:travpass/business_logic/models/user.dart';
 import 'package:travpass/core/shared_pref_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -301,6 +302,20 @@ class AuthService extends ChangeNotifier {
     notifyListeners();
     return res;
   }
+Future<List<Transaction>> fetchTransactions(String userId) async {
+  final response = await http.get(Uri.parse('${ApiConstants.getTransactionsUrl}/userId'));
+
+  if (response.statusCode == 200) {
+    // If the server returns a 200 OK response,
+    // parse the transactions from the response.
+    Iterable jsonResponse = json.decode(response.body);
+    return jsonResponse.map((transaction) => Transaction.fromJson(transaction)).toList();
+  } else {
+    // If the server did not return a 200 OK response,
+    // throw an exception.
+    throw Exception('Failed to load transactions');
+  }
+}
 
   Future<void> logout() async {
     await SharedPrefHelper(_prefs).clearUserInfo();

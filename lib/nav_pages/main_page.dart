@@ -6,6 +6,7 @@ import 'package:travpass/nav_pages/conductor_dashboard.dart';
 import 'package:travpass/nav_pages/generate_qr.dart';
 import 'package:travpass/nav_pages/passenger_dashboard.dart';
 import 'package:travpass/nav_pages/scan_qr.dart';
+import 'package:travpass/nav_pages/contacts.dart';
 
 
 class MainPage extends StatefulWidget {
@@ -36,6 +37,7 @@ class _MainPageState extends State<MainPage> {
             create: (context) => TransactionData(),
             builder: (context, child) => const StatisticsPage()),
         const GenerateQRPage(),
+        ContactsPage(),
 
       
       ];
@@ -46,7 +48,7 @@ class _MainPageState extends State<MainPage> {
             create: (context) => TransactionData(),
             builder: (context, child) => const StatisticsPage()),
         const ScanQRPage(),
-        const GenerateQRPage(),
+        ContactsPage(),
       ];
     }
   

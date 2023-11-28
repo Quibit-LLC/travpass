@@ -14,7 +14,7 @@ class HiveDataBase {
 
     for (var transaction in allTransaction) {
       List<dynamic> transactionFormatted = [
-        transaction.name,
+        transaction.routeName,
         transaction.amount,
         transaction.dateTime,
       ];
@@ -38,7 +38,7 @@ class HiveDataBase {
 
       // create transactionitem
       TransactionItem transaction =
-          TransactionItem(name: name, amount: amount, dateTime: dateTime);
+          TransactionItem(routeName: name, amount: amount, dateTime: dateTime);
 
       // add transaction to overall list of transactions
       allTransactions.add(transaction);

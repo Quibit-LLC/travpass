@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:travpass/auth_pages/conductor_login.dart';
-import 'package:travpass/auth_pages/passenger_login.dart';
 import 'package:travpass/auth_pages/register_success.dart';
 import 'package:travpass/business_logic/services/auth_service.dart';
 import 'package:travpass/components/loading_button.dart';

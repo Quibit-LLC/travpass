@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:travpass/business_logic/api/api_constants.dart';
+import 'package:travpass/business_logic/models/transaction.dart';
 import 'package:travpass/business_logic/models/user.dart';
 import 'package:travpass/core/shared_pref_helper.dart';
 
@@ -12,9 +16,24 @@ class PassengerDashboard extends StatefulWidget {
 
 class _PassengerDashboardState extends State<PassengerDashboard> {
   late Future<User?> userFuture;
+  late Future<List<Transaction>> transactionFuture;
 
   _PassengerDashboardState() {
     userFuture = getUserDetails();
+  }
+
+  Future<List<Transaction>> fetchTransactions(String userId) async {
+    final response =
+        await http.get(Uri.parse('${ApiConstants.getTransactionsUrl}/$userId'));
+
+    if (response.statusCode == 200) {
+      Iterable jsonResponse = json.decode(response.body);
+      return jsonResponse
+          .map((transaction) => Transaction.fromJson(transaction))
+          .toList();
+    } else {
+      throw Exception('Failed to load transactions');
+    }
   }
 
   Future<User?> getUserDetails() async {
@@ -26,12 +45,7 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    List<String> data = [
-      'JUJA - NAIROBI',
-      'MOMBASA - NAIROBI',
-      'KISUMU - NAIROBI'
-    ];
-
+    
     return FutureBuilder<User?>(
       future: userFuture,
       builder: (context, snapshot) {
@@ -230,6 +244,7 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
 
                     // Use ListView.builder to create a list of widgets
                     // Use Positioned to place the listview.builder at a fixed location
+
                     Positioned(
                       left: 0,
                       top: height - 490,
@@ -238,51 +253,67 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                           Container(
                             width: 430,
                             height: 300,
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: data
-                                  .length, // The number of items in the list
-                              itemBuilder: (context, index) {
-                                // The function that returns the widget for each item
-                                return ListTile(
-                                  title: Text(
-                                    data[index],
-                                    style: TextStyle(
-                                      color: Color(0xFF0B2031),
-                                      fontSize: 20,
-                                      fontFamily: 'Montserrat',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0.09,
-                                    ),
-                                  ),
-                                  subtitle: Text(
-                                    ' 12:22 PM',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 20,
-                                      fontFamily: 'Josefin Sans',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0.09,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    ' +2100',
-                                    style: TextStyle(
-                                      color: Color(0xFF2BC112),
-                                      fontSize: 20,
-                                      fontFamily: 'Josefin Sans',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0.09,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
+                            child: FutureBuilder<List<Transaction>>(
+                                future: fetchTransactions('${user.id}'),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  } else if (snapshot.hasError) {
+                                    return Text('Error: ${snapshot.error}');
+                                  } else {
+                                    return ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: snapshot.data
+                                          ?.length, // The number of items in the list
+                                      itemBuilder: (context, index) {
+                                        Transaction transaction =
+                                            snapshot.data![index];
+                                        // The function that returns the widget for each item
+                                        return ListTile(
+                                          title: Text(
+                                            transaction.routeName,
+                                            style: TextStyle(
+                                              color: Color(0xFF0B2031),
+                                              fontSize: 20,
+                                              fontFamily: 'Montserrat',
+                                              fontWeight: FontWeight.w500,
+                                              height: 0.09,
+                                            ),
+                                          ),
+                                          subtitle: Text(
+                                            transaction.getFormattedTimestamp(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 20,
+                                              fontFamily: 'Josefin Sans',
+                                              fontWeight: FontWeight.w500,
+                                              height: 0.09,
+                                            ),
+                                          ),
+                                          trailing: Text(
+                                            '- Kshs. ${transaction.fareValue}'.toString(),
+                                            style: TextStyle(
+                                              color: Color(0xFF2BC112),
+                                              fontSize: 20,
+                                              fontFamily: 'Josefin Sans',
+                                              fontWeight: FontWeight.w500,
+                                              height: 0.09,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  }
+                                }),
                           ),
                         ],
                       ),
                     ),
+                  
+                  
                   ],
                 ),
               ),
