@@ -14,13 +14,28 @@ class TransactionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(name),
-      subtitle: Text(dateTime.day.toString() +
-          '/' +
-          dateTime.month.toString() +
-          '/' +
-          dateTime.year.toString()),
-      trailing: Text('\$' + amount),
-    );
+        title: Text(name,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontFamily: 'Josefin Sans',
+              fontWeight: FontWeight.w500,
+              height: 0.09,
+            )),
+        subtitle: Text(dateTime.day.toString() +
+            '/' +
+            dateTime.month.toString() +
+            '/' +
+            dateTime.year.toString()),
+        trailing: Text(
+          '\Kshs.' + amount,
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+            fontFamily: 'Josefin Sans',
+            fontWeight: FontWeight.w300,
+            height: 0.09,
+          ),
+        ));
   }
 }

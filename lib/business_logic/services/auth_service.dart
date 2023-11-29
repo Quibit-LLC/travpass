@@ -46,7 +46,7 @@ class AuthService extends ChangeNotifier {
           body: jsonEncode(body),
           headers: headers,
         );
-        print(response.body);
+        // print(response.body);
 
         // Check if authentication was successful
         if (response.statusCode == 200) {
@@ -97,7 +97,7 @@ class AuthService extends ChangeNotifier {
           body: jsonEncode(body),
           headers: headers,
         );
-        print(response.body);
+        // print(response.body);
 
         // Check if authentication was successful
         if (response.statusCode == 200) {

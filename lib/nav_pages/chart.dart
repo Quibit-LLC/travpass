@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:travpass/business_logic/models/user.dart';
 import 'package:travpass/components/transaction_summary.dart';
 import 'package:travpass/components/transaction_tile.dart';
+import 'package:travpass/core/shared_pref_helper.dart';
 import 'package:travpass/data/transaction_data.dart';
-import 'package:travpass/business_logic/models/transactions.dart';
+// import 'package:travpass/business_logic/models/transactions.dart';
 
 class StatisticsPage extends StatefulWidget {
   const StatisticsPage({super.key});
@@ -13,91 +16,64 @@ class StatisticsPage extends StatefulWidget {
 }
 
 class _StatisticsPageState extends State<StatisticsPage> {
-  final newTransactionNameController = TextEditingController();
-  final newTransactionAmountController = TextEditingController();
+  late Future<User?> userFuture;
+  late String userId;
 
+  _StatisticsPageState() {
+    userFuture = getUserDetails();
+  }
+
+  @override
   void initState() {
     super.initState();
-    // prepare data on startup
-
-    Provider.of<TransactionData>(context, listen: false).prepareData();
+    // You can access userId here and call prepareData
+    userFuture.then((user) {
+      userId = user?.id ?? '';
+      Provider.of<TransactionData>(context, listen: false).prepareData(userId);
+    });
   }
 
-  void addNewTransaction() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text("Add New Expense"),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: newTransactionNameController,
-            ),
-            TextField(
-              controller: newTransactionAmountController,
-            ),
-          ],
-        ),
-        actions: [
-          MaterialButton(onPressed: save, child: Text("Save")),
-          MaterialButton(onPressed: cancel, child: Text("Cancel")),
-        ],
-      ),
-    );
-  }
-
-  void save() {
-    // only save if all fields are filled
-    if (newTransactionNameController.text.isNotEmpty &&
-        newTransactionAmountController.text.isNotEmpty) {
-      TransactionItem newTransaction = TransactionItem(
-          routeName: newTransactionNameController.text,
-          amount: newTransactionAmountController.text,
-          dateTime: DateTime.now());
-      Provider.of<TransactionData>(context, listen: false)
-          .addNewTransaction(newTransaction);
-    }
-    Navigator.pop(context);
-    clear();
-  }
-
-  void cancel() {
-    Navigator.pop(context);
-    clear();
-  }
-
-  void clear() {
-    newTransactionAmountController.clear();
-    newTransactionNameController.clear();
+  Future<User?> getUserDetails() async {
+    return SharedPrefHelper(await SharedPreferences.getInstance())
+        .getUserDetails();
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<TransactionData>(
       builder: (context, value, child) => Scaffold(
-        backgroundColor: Colors.grey[300],
-        floatingActionButton: FloatingActionButton(
-            backgroundColor: Colors.white,
-            onPressed: addNewTransaction,
-            child: Icon(Icons.add)),
-        body: ListView(
-          children: [
-            TransactionSummary(
-              startOfWeek: value.startofWeekDate(),
-            ),
-            SizedBox(height: 20),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: value.getAllTransactionList().length,
-              itemBuilder: (context, index) => TransactionTile(
-                name: value.getAllTransactionList()[index].routeName,
-                dateTime: value.getAllTransactionList()[index].dateTime,
-                amount: value.getAllTransactionList()[index].amount,
-              ),
-            ),
-          ],
+        backgroundColor: Colors.grey[100],
+        body: FutureBuilder<User?>(
+          future: userFuture,
+          builder: (context, userSnapshot) {
+            if (userSnapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (userSnapshot.hasError) {
+              return Center(child: Text('Error: ${userSnapshot.error}'));
+            } else {
+              return ListView(
+                children: [
+                  TransactionSummary(
+                    startOfWeek: value.startofWeekDate(),
+                  ),
+                  SizedBox(height: 20),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: value.getAllTransactionList().length,
+                    itemBuilder: (context, index) => TransactionTile(
+                      name: value.getAllTransactionList()[index].routeName,
+                      dateTime: value.getAllTransactionList()[index].timestamps,
+                      amount: value
+                          .getAllTransactionList()[index]
+                          .fareValue
+                          .toString(),
+                    ),
+                  ),
+                ],
+              );
+            }
+          },
         ),
       ),
     );

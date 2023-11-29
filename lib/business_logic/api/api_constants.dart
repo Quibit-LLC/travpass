@@ -15,4 +15,6 @@ class ApiConstants {
   static String transactionUrl = '$baseUrl/initiateTransaction';
 
   static String getTransactionsUrl = '$baseUrl/allTransactions';
+
+  static String getWalletUrl = '$baseUrl/walletDetails';
 }

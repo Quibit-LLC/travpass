@@ -15,8 +15,8 @@ class HiveDataBase {
     for (var transaction in allTransaction) {
       List<dynamic> transactionFormatted = [
         transaction.routeName,
-        transaction.amount,
-        transaction.dateTime,
+        transaction.fareValue,
+        transaction.timestamps,
       ];
       allTransactionsFormatted.add(transactionFormatted);
     }
@@ -32,16 +32,16 @@ class HiveDataBase {
 
     for (int i = 0; i < savedTransactions.length; i++) {
       // collect individual transaction data
-      String name = savedTransactions[i][0];
-      String amount = savedTransactions[i][1];
-      DateTime dateTime = savedTransactions[i][2];
+      // String name = savedTransactions[i][0];
+      // String amount = savedTransactions[i][1];
+      // DateTime dateTime = savedTransactions[i][2];
 
       // create transactionitem
-      TransactionItem transaction =
-          TransactionItem(routeName: name, amount: amount, dateTime: dateTime);
+      // TransactionItem transaction =
+      //     TransactionItem(routeName: name, fareValue: amount, timestamps: dateTime);
 
       // add transaction to overall list of transactions
-      allTransactions.add(transaction);
+      // allTransactions.add(transaction);
     }
 
     return allTransactions;

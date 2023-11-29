@@ -5,8 +5,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travpass/business_logic/api/api_constants.dart';
 import 'package:travpass/business_logic/models/transaction.dart';
 import 'package:travpass/business_logic/models/user.dart';
+import 'package:travpass/business_logic/models/wallet.dart';
 
 import 'package:travpass/core/shared_pref_helper.dart';
+
+class UserWithWallet {
+  final User? user;
+  final Wallet? wallet;
+
+  UserWithWallet({this.user, this.wallet});
+}
 
 class ConductorDashboard extends StatefulWidget {
   const ConductorDashboard({super.key});
@@ -36,6 +44,37 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
     }
   }
 
+  Future<UserWithWallet> getUserDetailsWithWallet() async {
+    final user = await getUserDetails();
+    final wallet = await fetchWalletData(user!.id);
+
+    // Return a UserWithWallet object instead of null
+    return UserWithWallet(user: user, wallet: wallet);
+  }
+
+  Future<Wallet?> fetchWalletData(String userId) async {
+    final response =
+        await http.get(Uri.parse('${ApiConstants.getWalletUrl}/$userId'));
+
+    if (response.statusCode == 200) {
+      dynamic responseData = json.decode(response.body);
+      print(responseData);
+
+      if (responseData is Map<String, dynamic>) {
+        // If the response is a Map, directly convert it to Wallet
+        return Wallet.fromJson(responseData);
+      } else if (responseData is List<dynamic> && responseData.isNotEmpty) {
+        // If the response is a List, take the first item and convert it to Wallet
+        return Wallet.fromJson(responseData[0]);
+      } else {
+        // If the response is not in the expected format, throw an exception
+        throw Exception('Invalid wallet data format');
+      }
+    } else {
+      throw Exception('Failed to load wallet data');
+    }
+  }
+
   Future<User?> getUserDetails() async {
     return SharedPrefHelper(await SharedPreferences.getInstance())
         .getUserDetails();
@@ -43,19 +82,17 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    // var user = FlutterSecureStorageHelper(const FlutterSecureStorage())
-    //     .getUserDetails();
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    return FutureBuilder<User?>(
-      future: userFuture,
+    FutureBuilder<UserWithWallet>(
+      future: getUserDetailsWithWallet(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
-            User user = snapshot.data!;
-
+            User user = snapshot.data!.user!;
+            Wallet wallet = snapshot.data!.wallet!;
+            print(user);
             return SafeArea(
               child: Container(
                 width: double.maxFinite,
@@ -135,7 +172,7 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                       left: 128,
                       top: height - 700,
                       child: Text(
-                        'Ksh.2640',
+                        'Kshs. ' + '${wallet.balance}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFF34DD59),
@@ -311,7 +348,7 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                                             ),
                                           ),
                                           trailing: Text(
-                                            '- Kshs. ${transaction.fareValue}'
+                                            '+ Kshs. ${transaction.fareValue}'
                                                 .toString(),
                                             style: TextStyle(
                                               color: Color(0xFF2BC112),
@@ -326,7 +363,6 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                                     );
                                   }
                                 }),
-                                
                           ),
                         ],
                       ),
@@ -353,5 +389,6 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
         }
       },
     );
+    return Container(); // Add this line at the end
   }
 }

@@ -296,7 +296,7 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                                           trailing: Text(
                                             '- Kshs. ${transaction.fareValue}'.toString(),
                                             style: TextStyle(
-                                              color: Color(0xFF2BC112),
+                                              color: Colors.red,
                                               fontSize: 20,
                                               fontFamily: 'Josefin Sans',
                                               fontWeight: FontWeight.w500,

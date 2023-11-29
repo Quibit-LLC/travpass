@@ -1,7 +1,16 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:travpass/data/hive_database.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:travpass/business_logic/api/api_constants.dart';
+import 'package:travpass/business_logic/models/user.dart';
+import 'package:travpass/core/shared_pref_helper.dart';
+// import 'package:travpass/data/hive_database.dart';
 import 'package:travpass/datetime/date_time_helper.dart';
 import 'package:travpass/business_logic/models/transactions.dart';
+// import 'package:travpass/nav_pages/conductor_dashboard.dart';
+
+late Future<User?> userFuture;
 
 class TransactionData extends ChangeNotifier {
   // list of all transactions
@@ -13,22 +22,29 @@ class TransactionData extends ChangeNotifier {
   }
 
   // prepare data to display
-  final db = HiveDataBase();
-  void prepareData() {
-    // if there exists data, get it
-    if (db.readData().isNotEmpty) {
-      overallTransactionList = db.readData();
+  Future<List<TransactionItem>> prepareData(String userId) async {
+    final response =
+        await http.get(Uri.parse('${ApiConstants.getTransactionsUrl}/$userId'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> transactionList = json.decode(response.body);
+      // print(transactionList);
+      overallTransactionList = transactionList
+          .map((transaction) => TransactionItem.fromJson(transaction))
+          .toList();
+      notifyListeners();
+      // Return the list of transactions
+      return overallTransactionList;
+    } else {
+      // Throw an exception if the status code is not 200
+      throw Exception('Failed to load transactions');
     }
   }
 
-  // add a new transaction
-  void addNewTransaction(TransactionItem newTransaction) {
-    overallTransactionList.add(newTransaction);
-
-    notifyListeners();
-    db.saveData(overallTransactionList);
+  Future<User?> getUserDetails() async {
+    return SharedPrefHelper(await SharedPreferences.getInstance())
+        .getUserDetails();
   }
-  // delete transaction*
 
   //get weekday, from a dateTime object
   String getDayName(DateTime dateTime) {
@@ -78,8 +94,8 @@ class TransactionData extends ChangeNotifier {
     };
 
     for (var transaction in overallTransactionList) {
-      String date = convertDateTimeToString(transaction.dateTime);
-      double amount = double.parse(transaction.amount);
+      String date = convertDateTimeToString(transaction.timestamps);
+      double amount = double.parse(transaction.fareValue);
 
       if (dailyTransactionSummary.containsKey(date)) {
         double currentAmount = dailyTransactionSummary[date]!;

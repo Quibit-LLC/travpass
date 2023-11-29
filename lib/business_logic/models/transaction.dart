@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 class Transaction {
   final String transactionId;
-  final DateTime timestamp;
+  final DateTime timestamps;
   final String fareValue;
   final String routeName;
   final String passengerId;
@@ -11,7 +11,7 @@ class Transaction {
 
   Transaction({
     required this.transactionId,
-    required this.timestamp,
+    required this.timestamps,
     required this.fareValue,
     required this.routeName,
     required this.passengerId,
@@ -28,7 +28,7 @@ class Transaction {
       transactionId: json['transactionID'] ?? '',
       // Use the ?? operator to provide a default value in case the map entry is null
       // Use the ! operator to assert that the map entry is not null after the ?? operator
-      timestamp: DateTime.parse(json['timestamp'] ?? '2023-11-27T05:11:21'),
+      timestamps: DateTime.parse(json['created_at'] ?? '2023-11-27T05:11:21'),
       // Use the ?? operator to provide a default value in case the map entry is null
       // Use the toDouble() method to convert the map entry to a double
       fareValue: json['fareValue'] ?? '0',
@@ -47,6 +47,6 @@ class Transaction {
     // Create a DateFormat object with the desired pattern
     DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
     // Format the timestamp field and return the result
-    return formatter.format(timestamp);
+    return formatter.format(timestamps);
   }
 }
