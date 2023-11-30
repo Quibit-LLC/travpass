@@ -45,7 +45,7 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    
+
     return FutureBuilder<User?>(
       future: userFuture,
       builder: (context, snapshot) {
@@ -61,7 +61,7 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                 child: Stack(
                   children: [
                     Positioned(
-                      left: 14,
+                      left: 24,
                       top: 89,
                       child: Container(
                         width: width / 2 + width / 2 - 50,
@@ -131,7 +131,7 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                       left: 128,
                       top: height - 700,
                       child: Text(
-                        'Ksh.2640',
+                        'Kshs. ' + '${user.balance}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFF34DD59),
@@ -294,7 +294,8 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                                             ),
                                           ),
                                           trailing: Text(
-                                            '- Kshs. ${transaction.fareValue}'.toString(),
+                                            '- Kshs. ${transaction.fareValue}'
+                                                .toString(),
                                             style: TextStyle(
                                               color: Colors.red,
                                               fontSize: 20,
@@ -312,8 +313,6 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                         ],
                       ),
                     ),
-                  
-                  
                   ],
                 ),
               ),

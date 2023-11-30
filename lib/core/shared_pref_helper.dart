@@ -13,7 +13,7 @@ class SharedPrefHelper {
   static const String nameKey = 'userName';
   static const String emailKey = 'emailAddress';
   static const String isLoggedInKey = 'isLoggedIn';
-  // static const String balanceKey = 'balance';
+  static const String balanceKey = 'balance';
 
   // Function to save user information
   Future<void> saveUserInfo({
@@ -21,7 +21,7 @@ class SharedPrefHelper {
     required String id,
     required String userName,
     required String emailAddress,
-    // required double balance,
+    required String balance,
     required bool isLoggedIn,
   }) async {
     try {
@@ -29,7 +29,7 @@ class SharedPrefHelper {
       await _prefs.setString(idKey, id);
       await _prefs.setString(nameKey, userName);
       await _prefs.setString(emailKey, emailAddress);
-      // await _prefs.setDouble(balanceKey, balance);
+      await _prefs.setString(balanceKey, balance);
       await _prefs.setBool(isLoggedInKey, isLoggedIn);
     } catch (e) {
       print("Error saving user info to SharedPreferences: $e");
@@ -43,20 +43,20 @@ class SharedPrefHelper {
     final userName = _prefs.getString(nameKey);
     final emailAddress = _prefs.getString(emailKey);
     final token = _prefs.getString(tokenKey);
-    // final balance = _prefs.getDouble(balanceKey);
+    final balance = _prefs.getString(balanceKey);
 
     if (id != null &&
         userName != null &&
         emailAddress != null &&
-        token != null 
-        // balance != null
+        token != null &&
+        balance != null
         ) {
       return User(
         id: id,
         userName: userName,
         emailAddress: emailAddress,
         token: token,
-        // balance: balance,
+        balance: balance,
       );
     } else {
       return null;
@@ -69,7 +69,7 @@ class SharedPrefHelper {
     await _prefs.remove(idKey);
     await _prefs.remove(nameKey);
     await _prefs.remove(emailKey);
-    // await _prefs.remove(balanceKey);
+    await _prefs.remove(balanceKey);
     await _prefs.setBool(isLoggedInKey, false);
   }
 

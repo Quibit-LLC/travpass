@@ -58,7 +58,7 @@ class AuthService extends ChangeNotifier {
             final conductorID = json['data']['conductor']['conductorID'];
             final userName = json['data']['conductor']['userName'];
             final emailAddress = json['data']['conductor']['emailAddress'];
-            // final balance = json['data']['conductor']['balance'];
+            final balance = json['data']['conductor']['balance'];
 
             // Store the token and user details using SharedPrefHelper
             await SharedPrefHelper(_prefs).saveUserInfo(
@@ -66,7 +66,7 @@ class AuthService extends ChangeNotifier {
               id: conductorID,
               userName: userName,
               emailAddress: emailAddress,
-              // balance: balance,
+              balance: balance,
               isLoggedIn: true,
             );
             // print(emailAddress);
@@ -109,7 +109,7 @@ class AuthService extends ChangeNotifier {
             final passengerID = json['data']['passenger']['passengerID'];
             final userName = json['data']['passenger']['userName'];
             final emailAddress = json['data']['passenger']['emailAddress'];
-            // final balance = json['data']['passenger']['balance'];
+            final balance = json['data']['passenger']['balance'];
             //print(userName);
             // Store the token and user details using SharedPrefHelper
             await SharedPrefHelper(_prefs).saveUserInfo(
@@ -117,7 +117,7 @@ class AuthService extends ChangeNotifier {
               id: passengerID,
               userName: userName,
               emailAddress: emailAddress,
-              // balance: balance,
+              balance: balance,
               isLoggedIn: true,
             );
             // print(emailAddress);
@@ -180,27 +180,29 @@ class AuthService extends ChangeNotifier {
 
           if (json['status'] != 'success') {
             res = json['message'];
-
-            // Check for specific errors in the "errors" field
-            if (json.containsKey('errors')) {
-              Map<String, dynamic> errors = json['errors'];
-              errors.forEach((field, errorList) {
-                // Capitalize the first letter of each word and replace underscores with spaces
-                String formattedField = field.splitMapJoin('_',
-                    onMatch: (m) => ' ',
-                    onNonMatch: (n) =>
-                        n.isEmpty ? '' : n[0].toUpperCase() + n.substring(1));
-
-                for (var error in errorList) {
-                  res += " $formattedField Error: $error";
-                }
-              });
-            }
           } else {
             res = "ok"; // Sign-up was successful
           }
+        } else if (response.statusCode == 403) {
+          final json = jsonDecode(response.body);
+          // Check for specific errors in the "errors" field
+          if (json.containsKey('errors')) {
+            Map<String, dynamic> errors = json['errors'];
+            errors.forEach((field, errorList) {
+              // Capitalize the first letter of each word and replace underscores with spaces
+              String formattedField = field.splitMapJoin('_',
+                  onMatch: (m) => ' ',
+                  onNonMatch: (n) =>
+                      n.isEmpty ? '' : n[0].toUpperCase() + n.substring(1));
+
+              for (var error in errorList) {
+                res += " $formattedField Error: $error";
+              }
+            });
+          }
         } else {
-          res = jsonDecode(response.body)["data"] ?? "Unknown error occurred";
+          res =
+              jsonDecode(response.body)["message"] ?? "Unknown error occurred";
         }
       } else {
         // Call the API to authenticate the user
@@ -226,24 +228,25 @@ class AuthService extends ChangeNotifier {
 
           if (json['status'] != 'success') {
             res = json['message'];
-
-            // Check for specific errors in the "errors" field
-            if (json.containsKey('errors')) {
-              Map<String, dynamic> errors = json['errors'];
-              errors.forEach((field, errorList) {
-                // Capitalize the first letter of each word and replace underscores with spaces
-                String formattedField = field.splitMapJoin('_',
-                    onMatch: (m) => ' ',
-                    onNonMatch: (n) =>
-                        n.isEmpty ? '' : n[0].toUpperCase() + n.substring(1));
-
-                for (var error in errorList) {
-                  res += " $formattedField Error: $error";
-                }
-              });
-            }
           } else {
             res = "ok"; // Sign-up was successful
+          }
+        } else if (response.statusCode == 403) {
+          final json = jsonDecode(response.body);
+          // Check for specific errors in the "errors" field
+          if (json.containsKey('errors')) {
+            Map<String, dynamic> errors = json['errors'];
+            errors.forEach((field, errorList) {
+              // Capitalize the first letter of each word and replace underscores with spaces
+              String formattedField = field.splitMapJoin('_',
+                  onMatch: (m) => ' ',
+                  onNonMatch: (n) =>
+                      n.isEmpty ? '' : n[0].toUpperCase() + n.substring(1));
+
+              for (var error in errorList) {
+                res += " $formattedField Error: $error";
+              }
+            });
           }
         } else {
           res =
@@ -302,20 +305,24 @@ class AuthService extends ChangeNotifier {
     notifyListeners();
     return res;
   }
-Future<List<Transaction>> fetchTransactions(String userId) async {
-  final response = await http.get(Uri.parse('${ApiConstants.getTransactionsUrl}/userId'));
 
-  if (response.statusCode == 200) {
-    // If the server returns a 200 OK response,
-    // parse the transactions from the response.
-    Iterable jsonResponse = json.decode(response.body);
-    return jsonResponse.map((transaction) => Transaction.fromJson(transaction)).toList();
-  } else {
-    // If the server did not return a 200 OK response,
-    // throw an exception.
-    throw Exception('Failed to load transactions');
+  Future<List<Transaction>> fetchTransactions(String userId) async {
+    final response =
+        await http.get(Uri.parse('${ApiConstants.getTransactionsUrl}/userId'));
+
+    if (response.statusCode == 200) {
+      // If the server returns a 200 OK response,
+      // parse the transactions from the response.
+      Iterable jsonResponse = json.decode(response.body);
+      return jsonResponse
+          .map((transaction) => Transaction.fromJson(transaction))
+          .toList();
+    } else {
+      // If the server did not return a 200 OK response,
+      // throw an exception.
+      throw Exception('Failed to load transactions');
+    }
   }
-}
 
   Future<void> logout() async {
     await SharedPrefHelper(_prefs).clearUserInfo();

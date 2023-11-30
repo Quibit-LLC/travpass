@@ -693,8 +693,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
               backgroundColor: Colors.red, // Set background color to red
             ),
           );
-          // print("=------------------> ${res.toString()}");
-          // showSnackBar(context, result);
+          
         }
 
         setState(() {
@@ -731,8 +730,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
               backgroundColor: Colors.red, // Set background color to red
             ),
           );
-          // print("=------------------> ${res.toString()}");
-          // showSnackBar(context, result);
+        
         }
 
         setState(() {

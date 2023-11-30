@@ -11,7 +11,7 @@ class FlutterSecureStorageHelper {
   static const String idKey = 'id';
   static const String nameKey = 'userName';
   static const String emailKey = 'emailAddress';
-  // static const String balanceKey = 'balance';
+  static const String balanceKey = 'balance';
   static const String isLoggedInKey = 'isLoggedIn';
 
   // Function to save user information
@@ -20,14 +20,14 @@ class FlutterSecureStorageHelper {
     required String id,
     required String userName,
     required String emailAddress,
-    // required double balance,
+    required String balance,
     required bool isLoggedIn,
   }) async {
     await _storage.write(key: tokenKey, value: token);
     await _storage.write(key: idKey, value: id);
     await _storage.write(key: nameKey, value: userName);
     await _storage.write(key: emailKey, value: emailAddress);
-    // await _storage.write(key: balanceKey, value: balance.toString());
+    await _storage.write(key: balanceKey, value: balance.toString());
     await _storage.write(key: isLoggedInKey, value: isLoggedIn.toString());
   }
 
@@ -36,18 +36,19 @@ class FlutterSecureStorageHelper {
     final id = await _storage.read(key: idKey);
     final userName = await _storage.read(key: nameKey);
     final emailAddress = await _storage.read(key: emailKey);
-    // final balance = await _storage.read(key: balanceKey);
+    final balance = await _storage.read(key: balanceKey);
     final token = await _storage.read(key: tokenKey);
 
     if (id != null &&
         userName != null &&
         emailAddress != null &&
-        token != null 
+        token != null &&
+        balance !=null
         ) {
       return User(
         id: id,
         userName: userName,
-        // balance: double.tryParse(balance) ?? 0.0, // Ensure balance is treated as a double
+        balance: balance, // Ensure balance is treated as a double
         emailAddress: emailAddress,
         token: token,
       );
@@ -62,7 +63,7 @@ class FlutterSecureStorageHelper {
     await _storage.delete(key: idKey);
     await _storage.delete(key: nameKey);
     await _storage.delete(key: emailKey);
-    // await _storage.delete(key: balanceKey);
+    await _storage.delete(key: balanceKey);
     await _storage.delete(key: isLoggedInKey);
   }
 
