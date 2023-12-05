@@ -61,7 +61,7 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                 width: double.maxFinite,
                 height: double.maxFinite,
                 clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(color: Colors.white),
+                decoration: const BoxDecoration(color: Colors.white),
                 child: Stack(
                   children: [
                     Positioned(
@@ -71,12 +71,12 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                         width: width / 2 + width / 2 - 50,
                         height: 150,
                         decoration: ShapeDecoration(
-                          color: Color(0xFF0B2031),
+                          color: const Color(0xFF0B2031),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
                           shadows: [
-                            BoxShadow(
+                            const BoxShadow(
                               color: Color(0x3F000000),
                               blurRadius: 4,
                               offset: Offset(0, 4),
@@ -88,11 +88,11 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                     ),
                     Positioned(
                       left: 10,
-                      top: height - 800,
+                      top: height - 850,
                       child: Text.rich(
                         TextSpan(
                           children: [
-                            TextSpan(
+                            const TextSpan(
                               text: 'Hello ',
                               style: TextStyle(
                                 color: Colors.black,
@@ -104,7 +104,7 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                             ),
                             TextSpan(
                               text: '${user.userName}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Color(0xFFFF9F00),
                                 fontSize: 20,
                                 fontFamily: 'Montserrat',
@@ -112,7 +112,7 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                                 height: 0.09,
                               ),
                             ),
-                            TextSpan(
+                            const TextSpan(
                               text: '.',
                               style: TextStyle(
                                 color: Colors.black,
@@ -128,16 +128,16 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                     ),
                     Positioned(
                       left: 370,
-                      top: height - 830,
-                      child: ImageIcon(AssetImage("images/Alert.png")),
+                      top: height - 850,
+                      child: const ImageIcon(AssetImage("images/Alert.png")),
                     ),
                     Positioned(
-                      left: 128,
-                      top: height - 700,
+                      left: 100,
+                      top: height - 705,
                       child: Text(
-                       'Kshs. '+ '${user.balance}',
+                        'Kshs. ' '${user.balance}',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Color(0xFF34DD59),
                           fontSize: 32,
                           fontFamily: 'Montserrat Alternates',
@@ -149,7 +149,7 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                     Positioned(
                       left: 100,
                       top: height - 750,
-                      child: Text(
+                      child: const Text(
                         'Account Balance;',
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -162,9 +162,9 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                       ),
                     ),
                     Positioned(
-                      left: 60,
+                      left: 80,
                       top: height - 600,
-                      child: Row(
+                      child: const Row(
                         children: [
                           Column(
                             children: [
@@ -177,7 +177,7 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                               Text("Deposit"),
                             ],
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: 25,
                           ),
                           Column(
@@ -191,7 +191,7 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                               Text("Trasfers"),
                             ],
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: 25,
                           ),
                           Column(
@@ -205,7 +205,7 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                               Text("Withdraw"),
                             ],
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: 25,
                           ),
                           Column(
@@ -222,7 +222,7 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                         ],
                       ),
                     ),
-                    Positioned(
+                    const Positioned(
                       left: 10,
                       top: 352,
                       child: SizedBox(
@@ -232,7 +232,7 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                           'RECENT TRANSACTIONS',
                           style: TextStyle(
                             color: Color(0xFF0B2031),
-                            fontSize: 20,
+                            fontSize: 16,
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.w700,
                             height: 0.09,
@@ -240,7 +240,7 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                         ),
                       ),
                     ),
-                    Positioned(
+                    const Positioned(
                       left: 330,
                       top: 350,
                       child: SizedBox(
@@ -271,62 +271,79 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
                             width: 430,
                             height: 300,
                             child: FutureBuilder<List<Transaction>>(
-                                future: fetchTransactions('${user.id}'),
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Center(
-                                        child: CircularProgressIndicator());
-                                  } else if (snapshot.hasError) {
-                                    return Text('Error: ${snapshot.error}');
-                                  } else {
-                                    return ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount: snapshot.data
-                                          ?.length, // The number of items in the list
-                                      itemBuilder: (context, index) {
-                                        Transaction transaction =
-                                            snapshot.data![index];
-                                        // The function that returns the widget for each item
-                                        return ListTile(
-                                          title: Text(
-                                            transaction.routeName,
-                                            style: TextStyle(
-                                              color: Color(0xFF0B2031),
-                                              fontSize: 20,
-                                              fontFamily: 'Montserrat',
-                                              fontWeight: FontWeight.w500,
-                                              height: 0.09,
-                                            ),
+                              future: fetchTransactions('${user.id}'),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                } else if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                } else if (snapshot.data == null ||
+                                    snapshot.data!.isEmpty) {
+                                  // Display a message when there is no data
+                                  return const Center(
+                                      child: Padding(
+                                    padding: EdgeInsets.all(20.0),
+                                    child: Text(
+                                      'No transactions available yet.\n ',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontFamily: 'Roboto',
+                                        fontWeight: FontWeight.w500,
+                                        height: 0.09,
+                                        letterSpacing: 0.30,
+                                      ),
+                                    ),
+                                  ));
+                                } else {
+                                  // Display the list when there is data
+                                  return ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: snapshot.data!.length,
+                                    itemBuilder: (context, index) {
+                                      Transaction transaction =
+                                          snapshot.data![index];
+                                      return ListTile(
+                                        title: Text(
+                                          transaction.routeName,
+                                          style: const TextStyle(
+                                            color: Color(0xFF0B2031),
+                                            fontSize: 20,
+                                            fontFamily: 'Montserrat',
+                                            fontWeight: FontWeight.w500,
+                                            height: 0.09,
                                           ),
-                                          subtitle: Text(
-                                            transaction.getFormattedTimestamp(),
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 20,
-                                              fontFamily: 'Josefin Sans',
-                                              fontWeight: FontWeight.w500,
-                                              height: 0.09,
-                                            ),
+                                        ),
+                                        subtitle: Text(
+                                          transaction.getFormattedTimestamp(),
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                            fontFamily: 'Josefin Sans',
+                                            fontWeight: FontWeight.w500,
+                                            height: 0.09,
                                           ),
-                                          trailing: Text(
-                                            '- Kshs. ${transaction.fareValue}'
-                                                .toString(),
-                                            style: TextStyle(
-                                              color: Color(0xFF2BC112),
-                                              fontSize: 20,
-                                              fontFamily: 'Josefin Sans',
-                                              fontWeight: FontWeight.w500,
-                                              height: 0.09,
-                                            ),
+                                        ),
+                                        trailing: Text(
+                                          '+ Kshs. ${transaction.fareValue}'
+                                              .toString(),
+                                          style: const TextStyle(
+                                            color: Color(0xFF2BC112),
+                                            fontSize: 20,
+                                            fontFamily: 'Josefin Sans',
+                                            fontWeight: FontWeight.w500,
+                                            height: 0.09,
                                           ),
-                                        );
-                                      },
-                                    );
-                                  }
-                                }),
-                                
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -337,7 +354,7 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
             );
           } else {
             // Handle the case when user information is not available
-            return Scaffold(
+            return const Scaffold(
               body: Center(
                 child: Text('User information not available.'),
               ),
@@ -345,7 +362,7 @@ class _ConductorDashboardState extends State<ConductorDashboard> {
           }
         } else {
           // Handle loading state
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),

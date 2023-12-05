@@ -82,8 +82,12 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
         String result = await Provider.of<AuthService>(context, listen: false)
             .loginUser(body);
         if (result == "ok") {
-          Navigator.push(context,
-              MaterialPageRoute(builder: ((context) => MainPage(isConductor: true,))));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: ((context) => MainPage(
+                        isConductor: true,
+                      ))));
           // navigateToMainActivity(context);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -112,7 +116,7 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
           width: width,
           height: height,
           clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(color: Colors.white),
+          decoration: const BoxDecoration(color: Colors.white),
           child: Stack(
             children: [
               Positioned(
@@ -130,16 +134,16 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
                           width: width,
                           height: height,
                           clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(color: Colors.white),
+                          decoration: const BoxDecoration(color: Colors.white),
                         ),
                       ),
                       Positioned(
                         left: -56.97,
-                        top: height / -5.8,
+                        top: height / -5.5,
                         child: Container(
                           width: 567.62,
                           height: 479,
-                          decoration: ShapeDecoration(
+                          decoration: const ShapeDecoration(
                             color: Color(0xFF0B2031),
                             shape: OvalBorder(),
                           ),
@@ -151,8 +155,8 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
               ),
               Positioned(
                 left: 10,
-                top: height * 0.10,
-                child: SizedBox(
+                top: height * 0.12,
+                child: const SizedBox(
                   width: 400,
                   child: Text.rich(
                     TextSpan(
@@ -190,7 +194,7 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
               ),
               Positioned(
                 left: 25,
-                top: height * 0.4,
+                top: height * 0.42,
                 child: SizedBox(
                   width: 350,
                   child: TextFormField(
@@ -200,7 +204,7 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
+                      focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                           width: 2.0,
                           color: Colors.white,
@@ -208,22 +212,22 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           width: 2.0,
                           color: Colors.grey,
                         ),
                       ),
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.email,
                         color: Color(0xFFFF9F00),
                       ),
                       filled: true,
                       fillColor: Colors.white,
                       hintText: "Email",
-                      hintStyle: TextStyle(
-                          color: Color(0xFFFF9F00),
-                          fontSize: 20.0,
-                          fontFamily: 'Josefin Sans'),
+                      hintStyle: const TextStyle(
+                        color: Color(0xFFFF9F00),
+                        fontSize: 17.0,
+                      ),
                     ),
                     textInputAction: TextInputAction.next,
                     onChanged: (value) {
@@ -247,77 +251,21 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
               if (errorTextEmail != null)
                 Positioned(
                   left: 25,
-                  top: height * 0.47,
+                  top: height * 0.49,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       errorTextEmail!,
                       style: const TextStyle(
                         color: Colors.red,
-                        fontSize: 12.0,
+                        fontSize: 10.0,
                       ),
                     ),
                   ),
                 ),
               Positioned(
                 left: 25,
-                top: height * 0.51,
-                child: SizedBox(
-                  width: 350,
-                  child: TextField(
-                      onTapOutside: (event) {
-                        FocusManager.instance.primaryFocus?.unfocus();
-                      },
-                      controller: _saccoController,
-                      keyboardType: TextInputType.name,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        labelText: 'SACCO ID',
-                      ),
-                      style: TextStyle(
-                        color: Color(0xFFFF9F00),
-                        fontSize: 20,
-                        fontFamily: 'Josefin Sans',
-                        fontWeight: FontWeight.w500,
-                      ),
-                      onChanged: (value) {
-                        if (value.isNotEmpty && value.length >= 8) {
-                          setState(() {
-                            errorTextSacco = null;
-                          });
-                        } else if (value.isNotEmpty && value.length < 8) {
-                          setState(() {
-                            errorTextSacco = kShortSaccoError;
-                          });
-                        } else {
-                          setState(() {
-                            errorTextSacco = kSaccoNullError;
-                          });
-                        }
-                      }),
-                ),
-              ),
-              if (errorTextSacco != null)
-                Positioned(
-                  left: 25,
-                  top: height * 0.59,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      errorTextSacco!,
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontSize: 12.0,
-                      ),
-                    ),
-                  ),
-                ),
-              Positioned(
-                left: 25,
-                top: height * 0.63,
+                top: height * 0.515,
                 child: SizedBox(
                   width: 350,
                   child: TextField(
@@ -332,7 +280,7 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
                         ),
                         labelText: 'Password',
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFFFF9F00),
                         fontSize: 20,
                         fontFamily: 'Josefin Sans',
@@ -358,7 +306,7 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
               if (errorTextPassword != null)
                 Positioned(
                   left: 25,
-                  top: height * 0.70,
+                  top: height * 0.585,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -371,25 +319,82 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
                   ),
                 ),
               Positioned(
-                left: width * 0.06,
-                top: height * 0.739,
+                left: 25,
+                top: height * 0.62,
+                child: SizedBox(
+                  width: 350,
+                  child: TextField(
+                      onTapOutside: (event) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                      },
+                      controller: _saccoController,
+                      keyboardType: TextInputType.name,
+                      obscureText: false,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        labelText: 'SACCO ID',
+                      ),
+                      style: const TextStyle(
+                        color: Color(0xFFFF9F00),
+                        fontSize: 20,
+                        fontFamily: 'Josefin Sans',
+                        fontWeight: FontWeight.w500,
+                      ),
+                      onChanged: (value) {
+                        if (value.isNotEmpty && value.length >= 8) {
+                          setState(() {
+                            errorTextSacco = null;
+                          });
+                        } else if (value.isNotEmpty && value.length < 8) {
+                          setState(() {
+                            errorTextSacco = kShortSaccoError;
+                          });
+                        } else {
+                          setState(() {
+                            errorTextSacco = kSaccoNullError;
+                          });
+                        }
+                      }),
+                ),
+              ),
+              if (errorTextSacco != null)
+                Positioned(
+                  left: 25,
+                  top: height * 0.69,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      errorTextSacco!,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 12.0,
+                      ),
+                    ),
+                  ),
+                ),
+              Positioned(
+                left: 60,
+                top: height * 0.72,
+                right: 50,
                 child: isLoading
                     ? const LoadingButton()
                     : GestureDetector(
                         onTap: handleSignIn,
                         child: Container(
-                          width: 330,
+                          width: 300,
                           height: 75,
                           child: Stack(
                             children: [
                               Positioned(
-                                left: width / 2 - 160,
+                                left: 0,
                                 top: 0,
                                 child: Container(
                                   width: 250,
-                                  height: 75,
+                                  height: 70,
                                   decoration: ShapeDecoration(
-                                    color: Color(0xFF0B2031),
+                                    color: const Color(0xFF0B2031),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),
                                     ),
@@ -397,11 +402,11 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
                                 ),
                               ),
                               const Positioned(
-                                left: 110,
+                                left: 75,
                                 top: 40,
                                 child: SizedBox(
                                   width: 109,
-                                  height: 43,
+                                  height: 40,
                                   child: Text(
                                     'LOGIN',
                                     textAlign: TextAlign.center,
@@ -422,16 +427,16 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
                       ),
               ),
               Positioned(
-                left: 146,
-                top: height * 0.85,
-                child: SizedBox(
-                  width: 309,
-                  height: 158,
+                left: 98,
+                top: height * 0.83,
+                child: const SizedBox(
+                  width: 303,
+                  height: 155,
                   child: Text(
                     'Forgot Password?',
                     style: TextStyle(
                       color: Color(0xFFFF9F00),
-                      fontSize: 16,
+                      fontSize: 17,
                       fontFamily: 'Josefin Sans',
                       fontWeight: FontWeight.w500,
                       height: 0.06,
@@ -440,19 +445,18 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
                 ),
               ),
               Positioned(
-                left: 55,
-                top: height * 0.87,
+                left: 53,
+                top: height * 0.85,
                 child: SizedBox(
-                  width: 309,
-                  height: 42,
+                  width: 303,
+                  height: 40,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text('Don’t have an Account? ',
+                      const Text('Don’t have an Account? ',
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 18,
+                            fontSize: 17,
                             fontFamily: 'Josefin Sans',
                             fontWeight: FontWeight.w500,
                             height: 0.09,
@@ -461,17 +465,17 @@ class _ConductorLoginPageState extends State<ConductorLoginPage> {
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => RegisterFirstPage(
+                              builder: (context) => const RegisterFirstPage(
                                 isConductor: true,
                               ),
                             ),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           'Sign Up',
                           style: TextStyle(
                             color: Color(0xFFFF9F00),
-                            fontSize: 18,
+                            fontSize: 17,
                             fontFamily: 'Josefin Sans',
                             fontWeight: FontWeight.w500,
                             height: 0.09,

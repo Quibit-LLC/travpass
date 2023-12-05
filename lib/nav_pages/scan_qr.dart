@@ -32,8 +32,10 @@ class _ScanQRPageState extends State<ScanQRPage> {
   bool isScanCompleted = false;
   bool isFlashOn = false;
   bool isFrontCamera = false;
- 
-  MobileScannerController controller = MobileScannerController();
+
+  MobileScannerController controller = MobileScannerController(
+    detectionSpeed: DetectionSpeed.noDuplicates,
+  );
 
   void closeScreen() {
     isScanCompleted = false;
@@ -41,8 +43,8 @@ class _ScanQRPageState extends State<ScanQRPage> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.sizeOf(context).width;
+    double height = MediaQuery.sizeOf(context).height;
     return FutureBuilder<User?>(
       future: userFuture,
       builder: (context, snapshot) {
@@ -50,12 +52,12 @@ class _ScanQRPageState extends State<ScanQRPage> {
           if (snapshot.hasData) {
             User user = snapshot.data!;
             return Scaffold(
-              backgroundColor: Color(0xFF0B2031),
+              backgroundColor: const Color(0xFF0B2031),
               body: Container(
                 width: width,
                 height: height,
                 clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(color: Color(0xFF0B2031)),
+                decoration: const BoxDecoration(color: Color(0xFF0B2031)),
                 child: Stack(
                   children: [
                     Positioned(
@@ -64,7 +66,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
                       child: Container(
                         width: 1080,
                         height: 1920,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage("images/background.png"),
                             fit: BoxFit.fill,
@@ -74,8 +76,8 @@ class _ScanQRPageState extends State<ScanQRPage> {
                     ),
                     Positioned(
                       left: 45,
-                      top: 102,
-                      child: Center(
+                      top: height - 820,
+                      child: const Center(
                         child: Column(
                           children: [
                             Text(
@@ -103,76 +105,64 @@ class _ScanQRPageState extends State<ScanQRPage> {
                       ),
                     ),
                     Positioned(
-                      left: 86,
-                      top: 100,
-                      child: Expanded(
-                          flex: 2,
-                          child: Stack(
-                            children: [
-                              MobileScanner(
-                                controller: controller,
-                                onDetect: (barcode) async {
-                                  
-                                  if (!isScanCompleted) {
-                                    String scanResult = barcode.raw ?? '---';
+                      left: 40,
+                      top: height - 650,
+                      right: 0,
+                      bottom: 0,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Stack(
+                          children: [
+                            MobileScanner(
+                              controller: controller,
+                              onDetect: (capture) async {
+                                if (!isScanCompleted) {
+                                  final List<Barcode> barcodes =
+                                      capture.barcodes;
+                                  String scanResult = '';
+                                  // Extract JSON data from the "rawValue" field
+                                  scanResult = barcodes[0].rawValue ?? '';
+                                  try {
+                                    Map<String, dynamic> decodedResult =
+                                        jsonDecode(scanResult);
 
-                                    try {
-                                      Map<String, dynamic> decodedResult =
-                                          jsonDecode(scanResult);
+                                    String conductorID =
+                                        decodedResult["conductorID"].toString();
+                                    double amount =
+                                        double.parse(decodedResult["amount"]);
+                                    String routeName =
+                                        decodedResult["routeName"];
 
-                                      String conductorID =
-                                          decodedResult["conductorID"]
-                                              .toString();
-                                      dynamic amount = decodedResult["amount"];
-                                      String routeName =
-                                          decodedResult["routeName"];
+                                    Map<String, dynamic> body = {
+                                      'conductorID': conductorID,
+                                      'fareValue': amount,
+                                      'passengerID': '${user.id}',
+                                      'routeName': routeName,
+                                    };
 
-                                      Map<String, Object> body = {
-                                        'conductorID': conductorID,
-                                        'fareValue': amount,
-                                        'passengerID': '${user.id}',
-                                        'routeName': routeName,
-                                      };
+                                    String result =
+                                        await Provider.of<AuthService>(context,
+                                                listen: false)
+                                            .initiateTransaction(body);
 
-                                      String result =
-                                          await Provider.of<AuthService>(
-                                                  context,
-                                                  listen: false)
-                                              .initiateTransaction(body);
+                                    isScanCompleted = true;
 
-                                      isScanCompleted = true;
-
-                                      if (result == "ok") {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                TransferSuccess(
-                                                    scanResults: decodedResult[
-                                                        'amount']),
-                                          ),
-                                        );
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              result,
-                                              style: const TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                            backgroundColor: Colors.red,
-                                          ),
-                                        );
-                                      }
-                                    } catch (e) {
-                                      // Handle the case when JSON decoding fails
-                                      print('Error decoding JSON: $e');
+                                    if (result == "ok") {
+                                      controller.dispose();
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => TransferSuccess(
+                                              scanResults:
+                                                  decodedResult['amount']),
+                                        ),
+                                      );
+                                    } else {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
                                           content: Text(
-                                            'Invalid QR Code format.',
+                                            result,
                                             style: const TextStyle(
                                                 color: Colors.white),
                                           ),
@@ -180,18 +170,33 @@ class _ScanQRPageState extends State<ScanQRPage> {
                                         ),
                                       );
                                     }
+                                  } catch (e) {
+                                    // Handle the case when JSON decoding fails
+                                    print('Error decoding JSON: $e');
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Invalid QR Code format.',
+                                          style: TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
                                   }
-                                },
-                              ),
-                              QRScannerOverlay(
-                                overlayColor: Colors.black54,
-                              ),
-                            ],
-                          )),
+                                }
+                              },
+                            ),
+                            QRScannerOverlay(
+                              overlayColor: Colors.black54,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                     Positioned(
-                        left: 130,
-                        bottom: 80,
+                        left: 100,
+                        top: height - 200,
                         child: Container(
                           width: 200,
                           height: 200,
@@ -248,7 +253,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
             );
           } else {
             // Handle the case when user information is not available
-            return Scaffold(
+            return const Scaffold(
               body: Center(
                 child: Text('User information not available.'),
               ),
@@ -256,7 +261,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
           }
         } else {
           // Handle loading state
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),

@@ -44,7 +44,7 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
       appBar: AppBar(
         leading: IconButton(
           color: Colors.black,
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -59,13 +59,13 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
               child: Container(
                 width: 40,
                 height: 40,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image:
                       DecorationImage(image: AssetImage("images/newTrip.png")),
                 ),
               ),
             ),
-            Center(
+            const Center(
               child: SizedBox(
                 width: 400,
                 height: 50,
@@ -125,7 +125,7 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
                 ),
                 labelText: 'Route Name',
               ),
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFFFF9F00),
                 fontSize: 20,
                 fontFamily: 'Josefin Sans',
@@ -151,7 +151,7 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
                 ),
                 labelText: 'Fare Amount',
               ),
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFFFF9F00),
                 fontSize: 20,
                 fontFamily: 'Josefin Sans',
@@ -170,12 +170,12 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
                 height: 56,
                 padding: const EdgeInsets.all(8),
                 decoration: ShapeDecoration(
-                  color: Color(0xFF1D3A6F),
+                  color: const Color(0xFF1D3A6F),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -202,7 +202,7 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
     );
   } else {
             // Handle the case when user information is not available
-            return Scaffold(
+            return const Scaffold(
               body: Center(
                 child: Text('User information not available.'),
               ),
@@ -210,7 +210,7 @@ class _GenerateQRPageState extends State<GenerateQRPage> {
           }
         } else {
           // Handle loading state
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),

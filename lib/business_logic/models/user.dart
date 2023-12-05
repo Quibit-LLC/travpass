@@ -4,6 +4,7 @@ class User {
   final String emailAddress;
   final String token;
   final String balance;
+  final String phoneNumber;
 
   User({
     required this.id,
@@ -11,6 +12,7 @@ class User {
     required this.emailAddress,
     required this.token,
     required this.balance,
+    required this.phoneNumber,
   });
 
   //When receiving JSON responses from the server, you can create a User object using the fromJson factory constructor
@@ -21,6 +23,7 @@ class User {
       emailAddress: json['emailAddress'],
       token: json['token'],
       balance: json['balance'],
+      phoneNumber: json['phoneNumber'],
     );
   }
 

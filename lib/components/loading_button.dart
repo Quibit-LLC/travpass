@@ -12,16 +12,16 @@ class LoadingButton extends StatelessWidget {
       child: TextButton(
         onPressed: null,
         style: TextButton.styleFrom(
-          backgroundColor: Color(0xFF34DD5A),
+          backgroundColor: const Color(0xFF34DD5A),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        child: Row(
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // if (isLoadingState) // Replace isLoadingState with your actual isLoading state variable
-            const SizedBox(
+            SizedBox(
               width: 20,
               height: 20,
               child: CircularProgressIndicator(
@@ -29,7 +29,7 @@ class LoadingButton extends StatelessWidget {
                 strokeWidth: 2.0,
               ),
             ),
-            const SizedBox(width: 8),
+            SizedBox(width: 8),
             // Add some spacing between the loading indicator and the text
             Text(
               'Loading...',

@@ -12,7 +12,7 @@ class RegisterPassenger extends StatelessWidget {
         body: Container(
           width: width,
           height: height,
-          decoration: BoxDecoration(color: Colors.white),
+          decoration: const BoxDecoration(color: Colors.white),
           child: Stack(
             children: [
               Positioned(
@@ -30,7 +30,7 @@ class RegisterPassenger extends StatelessWidget {
                           width: width,
                           height: height,
                           clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(color: Colors.white),
+                          decoration: const BoxDecoration(color: Colors.white),
                         ),
                       ),
                       Positioned(
@@ -39,7 +39,7 @@ class RegisterPassenger extends StatelessWidget {
                         child: Container(
                           width: 567.62,
                           height: 479,
-                          decoration: ShapeDecoration(
+                          decoration: const ShapeDecoration(
                             color: Color(0xFF0B2031),
                             shape: OvalBorder(),
                           ),
@@ -63,7 +63,7 @@ class RegisterPassenger extends StatelessWidget {
                         child: Container(
                           width: 22.12,
                           height: 14,
-                          decoration: ShapeDecoration(
+                          decoration: const ShapeDecoration(
                             color: Colors.white,
                             shape: CircleBorder(),
                           ),
@@ -75,7 +75,7 @@ class RegisterPassenger extends StatelessWidget {
                         child: Container(
                           width: 22.12,
                           height: 14,
-                          decoration: ShapeDecoration(
+                          decoration: const ShapeDecoration(
                             color: Color(0xFFFF9F00),
                             shape: CircleBorder(),
                           ),
@@ -87,7 +87,7 @@ class RegisterPassenger extends StatelessWidget {
                         child: Container(
                           width: 22.12,
                           height: 14,
-                          decoration: ShapeDecoration(
+                          decoration: const ShapeDecoration(
                             color: Colors.white,
                             shape: CircleBorder(),
                           ),
@@ -145,7 +145,7 @@ class RegisterPassenger extends StatelessWidget {
                       ),
                       labelText: 'YOUR PASSWORD',
                     ),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFFFF9F00),
                       fontSize: 20,
                       fontFamily: 'Josefin Sans',
@@ -167,7 +167,7 @@ class RegisterPassenger extends StatelessWidget {
                       ),
                       labelText: 'CONFIRM YOUR PASSWORD',
                     ),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFFFF9F00),
                       fontSize: 20,
                       fontFamily: 'Josefin Sans',
@@ -191,7 +191,7 @@ class RegisterPassenger extends StatelessWidget {
                           width: 330,
                           height: 75,
                           decoration: ShapeDecoration(
-                            color: Color(0xFF0B2031),
+                            color: const Color(0xFF0B2031),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),

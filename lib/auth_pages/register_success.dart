@@ -20,7 +20,7 @@ class RegisterSuccess extends StatelessWidget {
         width: width,
         height: height,
         clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(color: Colors.white),
+        decoration: const BoxDecoration(color: Colors.white),
         child: Stack(
           children: [
             Positioned(
@@ -29,7 +29,7 @@ class RegisterSuccess extends StatelessWidget {
               child: Container(
                 width: 1080,
                 height: 1920,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("images/background.png"),
                     fit: BoxFit.fill,
@@ -44,7 +44,7 @@ class RegisterSuccess extends StatelessWidget {
                 width: 255,
                 height: 255,
                 decoration: ShapeDecoration(
-                  image: DecorationImage(
+                  image: const DecorationImage(
                     image: AssetImage("images/check.png"),
                     fit: BoxFit.fill,
                   ),
@@ -57,7 +57,7 @@ class RegisterSuccess extends StatelessWidget {
             Positioned(
               left: 92,
               top: height * 0.65,
-              child: SizedBox(
+              child: const SizedBox(
                 width: 304,
                 height: 62,
                 child: Text(
@@ -75,7 +75,7 @@ class RegisterSuccess extends StatelessWidget {
             Positioned(
               left: 40,
               top: height * 0.75,
-              child: SizedBox(
+              child: const SizedBox(
                 width: 380,
                 height: 37,
                 child: Text(
@@ -97,7 +97,7 @@ class RegisterSuccess extends StatelessWidget {
                 width: 250,
                 height: 81,
                 decoration: ShapeDecoration(
-                  color: Color(0xFFFF9F00),
+                  color: const Color(0xFFFF9F00),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
@@ -116,15 +116,15 @@ class RegisterSuccess extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: ((context) => ConductorLoginPage())));
+                              builder: ((context) => const ConductorLoginPage())));
                     } else {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: ((context) => PassengerLoginPage())));
+                              builder: ((context) => const PassengerLoginPage())));
                     }
                   },
-                  child: Text(
+                  child: const Text(
                     'LOGIN',
                     // textAlign: TextAlign.center,
                     semanticsLabel: "PROCEED TO LOGIN",

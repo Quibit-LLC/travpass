@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:travpass/nav_pages/main_page.dart';
 
-class TransferSuccess extends StatelessWidget {
+class TransferSuccess extends StatefulWidget {
+  TransferSuccess({super.key, required this.scanResults});
   final String scanResults;
-  const TransferSuccess({super.key, required this.scanResults});
 
+  @override
+  State<TransferSuccess> createState() => _TransferSuccessState();
+}
+
+class _TransferSuccessState extends State<TransferSuccess> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,13 +23,13 @@ class TransferSuccess extends StatelessWidget {
                   child: Container(
                     width: 300,
                     height: 300,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage("images/transfer_success.png")),
                     ),
                   ),
                 ),
-                Center(
+                const Center(
                     child: Text("Transfer Successful!!!",
                         style: TextStyle(
                           color: Color(0xFF1D3A6F),
@@ -34,7 +39,7 @@ class TransferSuccess extends StatelessWidget {
                           height: 0.05,
                           letterSpacing: -0.20,
                         ))),
-                Text(
+                const Text(
                     'Transfers are reviewed which may result in delays or funds being frozen',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -45,14 +50,14 @@ class TransferSuccess extends StatelessWidget {
                       height: 0.14,
                       letterSpacing: 0.30,
                     )),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Container(
-                  width: 170,
+                  width: 200,
                   height: 74,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   decoration: ShapeDecoration(
-                    color: Color(0xFFFF9F00),
+                    color: const Color(0xFFFF9F00),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -63,34 +68,38 @@ class TransferSuccess extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Ksh . 70',
+                        'Kshs. ${widget.scanResults}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFF1D3A6F),
-                          fontSize: 32,
+                          fontSize: 30,
                           fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w500,
                           height: 0.04,
                         ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 InkWell(
-                  onTap: () => Navigator.push(context,
-                      MaterialPageRoute(builder: ((context) => MainPage(isConductor: false,)))),
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => MainPage(
+                                isConductor: false,
+                              )))),
                   child: Container(
                     width: 327,
                     height: 56,
                     padding: const EdgeInsets.all(8),
                     decoration: ShapeDecoration(
-                      color: Color(0xFF1D3A6F),
+                      color: const Color(0xFF1D3A6F),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,

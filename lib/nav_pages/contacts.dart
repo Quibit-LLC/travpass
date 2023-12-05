@@ -15,16 +15,21 @@ class _ContactsPageState extends State<ContactsPage> {
 
   // A method to load the contacts from the device
   void _loadContacts() async {
-    // Request contact permission
-    if (await FlutterContacts.requestPermission()) {
-      // Get all contacts (lightly fetched)
-      // Get all contacts on device with phone numbers
-      List<Contact> contacts = await FlutterContacts.getContacts();
+    try {
+      // Request contact permission
+      if (await FlutterContacts.requestPermission()) {
+        // Get all contacts
+        List<Contact> contacts = await FlutterContacts.getContacts(
+            withProperties: true, withPhoto: true);
 
-      // Update the state with the contacts
-      setState(() {
-        _contacts = contacts.toList();
-      });
+        // Update the state with the contacts
+        setState(() {
+          _contacts = contacts.toList();
+        });
+      }
+    } catch (e) {
+      // Handle any errors here
+      print('Failed to load contacts: $e');
     }
   }
 
@@ -39,7 +44,14 @@ class _ContactsPageState extends State<ContactsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Contacts'),
+        title: const Text("Contacts"),
+        leading: IconButton(
+          color: Colors.black,
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: ListView.builder(
         itemCount: _contacts.length, // The number of contacts in the list

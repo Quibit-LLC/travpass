@@ -14,6 +14,7 @@ class SharedPrefHelper {
   static const String emailKey = 'emailAddress';
   static const String isLoggedInKey = 'isLoggedIn';
   static const String balanceKey = 'balance';
+   static const String phoneKey = 'phoneNumber';
 
   // Function to save user information
   Future<void> saveUserInfo({
@@ -22,6 +23,7 @@ class SharedPrefHelper {
     required String userName,
     required String emailAddress,
     required String balance,
+    required String phoneNumber,
     required bool isLoggedIn,
   }) async {
     try {
@@ -31,6 +33,7 @@ class SharedPrefHelper {
       await _prefs.setString(emailKey, emailAddress);
       await _prefs.setString(balanceKey, balance);
       await _prefs.setBool(isLoggedInKey, isLoggedIn);
+      await _prefs.setString(phoneKey, phoneNumber);
     } catch (e) {
       print("Error saving user info to SharedPreferences: $e");
       // Handle the error appropriately, e.g., throw an exception or log it.
@@ -44,19 +47,21 @@ class SharedPrefHelper {
     final emailAddress = _prefs.getString(emailKey);
     final token = _prefs.getString(tokenKey);
     final balance = _prefs.getString(balanceKey);
+    final phoneNumber = _prefs.getString(phoneKey);
 
     if (id != null &&
         userName != null &&
         emailAddress != null &&
         token != null &&
-        balance != null
-        ) {
+        balance != null &&
+        phoneNumber != null) {
       return User(
         id: id,
         userName: userName,
         emailAddress: emailAddress,
         token: token,
         balance: balance,
+        phoneNumber: phoneNumber,
       );
     } else {
       return null;

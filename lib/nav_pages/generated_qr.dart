@@ -14,16 +14,16 @@ class GeneratedQRPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF0B2031),
+        backgroundColor: const Color(0xFF0B2031),
         leading: IconButton(
           color: Colors.white,
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
-      backgroundColor: Color(0xFF0B2031),
+      backgroundColor: const Color(0xFF0B2031),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -33,7 +33,7 @@ class GeneratedQRPage extends StatelessWidget {
               child: Container(
                 width: 40,
                 height: 40,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   image: DecorationImage(
                       image: AssetImage(
@@ -60,12 +60,12 @@ class GeneratedQRPage extends StatelessWidget {
                 height: 56,
                 padding: const EdgeInsets.all(8),
                 decoration: ShapeDecoration(
-                  color: Color(0xFF34DD5A),
+                  color: const Color(0xFF34DD5A),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -94,12 +94,12 @@ class GeneratedQRPage extends StatelessWidget {
                 height: 56,
                 padding: const EdgeInsets.all(8),
                 decoration: ShapeDecoration(
-                  color: Color(0xFF34DD5A),
+                  color: const Color(0xFF34DD5A),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,

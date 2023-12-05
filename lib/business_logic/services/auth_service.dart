@@ -59,6 +59,7 @@ class AuthService extends ChangeNotifier {
             final userName = json['data']['conductor']['userName'];
             final emailAddress = json['data']['conductor']['emailAddress'];
             final balance = json['data']['conductor']['balance'];
+            final phoneNumber = json['data']['conductor']['phoneNumber'];
 
             // Store the token and user details using SharedPrefHelper
             await SharedPrefHelper(_prefs).saveUserInfo(
@@ -68,6 +69,7 @@ class AuthService extends ChangeNotifier {
               emailAddress: emailAddress,
               balance: balance,
               isLoggedIn: true,
+              phoneNumber: phoneNumber,
             );
             // print(emailAddress);
             // Update the AuthProvider state
@@ -110,6 +112,7 @@ class AuthService extends ChangeNotifier {
             final userName = json['data']['passenger']['userName'];
             final emailAddress = json['data']['passenger']['emailAddress'];
             final balance = json['data']['passenger']['balance'];
+            final phoneNumber = json['data']['passenger']['phoneNumber'];
             //print(userName);
             // Store the token and user details using SharedPrefHelper
             await SharedPrefHelper(_prefs).saveUserInfo(
@@ -119,6 +122,7 @@ class AuthService extends ChangeNotifier {
               emailAddress: emailAddress,
               balance: balance,
               isLoggedIn: true,
+              phoneNumber: phoneNumber,
             );
             // print(emailAddress);
             // Update the AuthProvider state
@@ -324,9 +328,130 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  Future<void> logout() async {
+  Future<String> updateUser(Map<String, dynamic> body) async {
+    String res = "";
+
+    try {
+      if (body.containsKey('saccoID')) {
+        // Call the API to authenticate the user
+        var url = Uri.parse(ApiConstants.updateConductorUrl);
+        var headers = {
+          'accept': 'application/json',
+          'content-type': 'application/json',
+        };
+
+        // Post data to the API using HTTP
+        http.Response response = await http.post(
+          url,
+          body: jsonEncode(body),
+          headers: headers,
+        );
+
+        print("=------------------> ${response.statusCode}");
+        print("=------------------> ${response.body}");
+
+        // Check the response status code
+        if (response.statusCode == 200) {
+          final json = jsonDecode(response.body);
+
+          if (json['status'] != 'success') {
+            res = json['message'];
+          } else {
+            res = "ok"; // Sign-up was successful
+          }
+        } else if (response.statusCode == 403) {
+          final json = jsonDecode(response.body);
+          // Check for specific errors in the "errors" field
+          if (json.containsKey('errors')) {
+            Map<String, dynamic> errors = json['errors'];
+            errors.forEach((field, errorList) {
+              // Capitalize the first letter of each word and replace underscores with spaces
+              String formattedField = field.splitMapJoin('_',
+                  onMatch: (m) => ' ',
+                  onNonMatch: (n) =>
+                      n.isEmpty ? '' : n[0].toUpperCase() + n.substring(1));
+
+              for (var error in errorList) {
+                res += " $formattedField Error: $error";
+              }
+            });
+          }
+        } else {
+          res =
+              jsonDecode(response.body)["message"] ?? "Unknown error occurred";
+        }
+      } else {
+        // Call the API to authenticate the user
+        var url = Uri.parse(ApiConstants.updatePassengerUrl);
+        var headers = {
+          'accept': 'application/json',
+          'content-type': 'application/json',
+        };
+
+        // Post data to the API using HTTP
+        http.Response response = await http.post(
+          url,
+          body: jsonEncode(body),
+          headers: headers,
+        );
+
+        print("=------------------> ${response.statusCode}");
+        print("=------------------> ${response.body}");
+
+        // Check the response status code
+        if (response.statusCode == 200) {
+          final json = jsonDecode(response.body);
+
+          if (json['status'] != 'success') {
+            res = json['message'];
+          } else {
+            res = "ok"; // Sign-up was successful
+          }
+        } else if (response.statusCode == 403) {
+          final json = jsonDecode(response.body);
+          // Check for specific errors in the "errors" field
+          if (json.containsKey('errors')) {
+            Map<String, dynamic> errors = json['errors'];
+            errors.forEach((field, errorList) {
+              // Capitalize the first letter of each word and replace underscores with spaces
+              String formattedField = field.splitMapJoin('_',
+                  onMatch: (m) => ' ',
+                  onNonMatch: (n) =>
+                      n.isEmpty ? '' : n[0].toUpperCase() + n.substring(1));
+
+              for (var error in errorList) {
+                res += " $formattedField Error: $error";
+              }
+            });
+          }
+        } else {
+          res =
+              jsonDecode(response.body)["message"] ?? "Unknown error occurred";
+        }
+      }
+    } catch (e) {
+      if (e is SocketException) {
+        res =
+            "Unable to connect to the network. Please check your internet connection and try again.";
+      } else if (e is FormatException || e is JsonUnsupportedObjectError) {
+        res = "Unknown error occurred";
+      } else {
+        print("Error in updateUser: $e");
+        res = "An error occurred while authenticating the user";
+      }
+    }
+
+    // Notify the listeners
+    notifyListeners();
+    return res;
+  }
+
+  Future<String> logout() async {
+    // final response =
+    //     await http.get(Uri.parse('${ApiConstants.getTransactionsUrl}/userId'));
     await SharedPrefHelper(_prefs).clearUserInfo();
     _isLoggedIn = false;
     notifyListeners();
+    return "ok";
   }
 }

@@ -57,7 +57,7 @@ class MyBarGraph extends StatelessWidget {
             (data) => BarChartGroupData(x: data.x, barRods: [
               BarChartRodData(
                 toY: data.y,
-                color: Color(0xFFFF9F00),
+                color: const Color(0xFFFF9F00),
                 width: 25,
                 borderRadius: BorderRadius.circular(4),
                 backDrawRodData: BackgroundBarChartRodData(
@@ -77,7 +77,7 @@ Widget getBottomTitles(double value, TitleMeta meta) {
   const style = TextStyle(
     color: Colors.grey,
     fontWeight: FontWeight.bold,
-    fontSize: 14,
+    fontSize: 12,
   );
   Widget text;
   switch (value.toInt()) {

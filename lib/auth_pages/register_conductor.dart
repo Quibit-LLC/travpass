@@ -13,7 +13,7 @@ class RegisterConductor extends StatelessWidget {
           width: width,
           height: height,
           clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(color: Colors.white),
+          decoration: const BoxDecoration(color: Colors.white),
           child: Stack(
             children: [
               Positioned(
@@ -31,7 +31,7 @@ class RegisterConductor extends StatelessWidget {
                           width: width,
                           height: height,
                           clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(color: Colors.white),
+                          decoration: const BoxDecoration(color: Colors.white),
                         ),
                       ),
                       Positioned(
@@ -40,7 +40,7 @@ class RegisterConductor extends StatelessWidget {
                         child: Container(
                           width: 567.62,
                           height: 479,
-                          decoration: ShapeDecoration(
+                          decoration: const ShapeDecoration(
                             color: Color(0xFF0B2031),
                             shape: OvalBorder(),
                           ),
@@ -64,7 +64,7 @@ class RegisterConductor extends StatelessWidget {
                         child: Container(
                           width: 22.12,
                           height: 14,
-                          decoration: ShapeDecoration(
+                          decoration: const ShapeDecoration(
                             color: Colors.white,
                             shape: CircleBorder(),
                           ),
@@ -76,7 +76,7 @@ class RegisterConductor extends StatelessWidget {
                         child: Container(
                           width: 22.12,
                           height: 14,
-                          decoration: ShapeDecoration(
+                          decoration: const ShapeDecoration(
                             color: Color(0xFFFF9F00),
                             shape: CircleBorder(),
                           ),
@@ -88,7 +88,7 @@ class RegisterConductor extends StatelessWidget {
                         child: Container(
                           width: 22.12,
                           height: 14,
-                          decoration: ShapeDecoration(
+                          decoration: const ShapeDecoration(
                             color: Colors.white,
                             shape: CircleBorder(),
                           ),
@@ -140,7 +140,7 @@ class RegisterConductor extends StatelessWidget {
                   width: 350,
                   child: TextFormField(
                     decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
+                      focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                           width: 2.0,
                           color: Colors.white,
@@ -148,7 +148,7 @@ class RegisterConductor extends StatelessWidget {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           width: 2.0,
                           color: Colors.grey,
                         ),
@@ -156,7 +156,7 @@ class RegisterConductor extends StatelessWidget {
                       filled: true,
                       fillColor: Colors.white,
                       hintText: "SACCO ID",
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                           color: Color(0xFFFF9F00),
                           fontSize: 20.0,
                           fontFamily: 'Josefin Sans'),
@@ -178,7 +178,7 @@ class RegisterConductor extends StatelessWidget {
                       ),
                       labelText: 'YOUR PASSWORD',
                     ),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFFFF9F00),
                       fontSize: 20,
                       fontFamily: 'Josefin Sans',
@@ -200,7 +200,7 @@ class RegisterConductor extends StatelessWidget {
                       ),
                       labelText: 'CONFIRM YOUR PASSWORD',
                     ),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFFFF9F00),
                       fontSize: 20,
                       fontFamily: 'Josefin Sans',
@@ -224,7 +224,7 @@ class RegisterConductor extends StatelessWidget {
                           width: 330,
                           height: 75,
                           decoration: ShapeDecoration(
-                            color: Color(0xFF0B2031),
+                            color: const Color(0xFF0B2031),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),

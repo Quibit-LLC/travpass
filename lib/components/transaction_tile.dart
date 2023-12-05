@@ -15,7 +15,7 @@ class TransactionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
         title: Text(name,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black,
               fontSize: 20,
               fontFamily: 'Josefin Sans',
@@ -29,7 +29,7 @@ class TransactionTile extends StatelessWidget {
             dateTime.year.toString()),
         trailing: Text(
           '\Kshs.' + amount,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 20,
             fontFamily: 'Josefin Sans',

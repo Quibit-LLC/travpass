@@ -47,7 +47,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
           future: userFuture,
           builder: (context, userSnapshot) {
             if (userSnapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (userSnapshot.hasError) {
               return Center(child: Text('Error: ${userSnapshot.error}'));
             } else {
@@ -56,10 +56,10 @@ class _StatisticsPageState extends State<StatisticsPage> {
                   TransactionSummary(
                     startOfWeek: value.startofWeekDate(),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: value.getAllTransactionList().length,
                     itemBuilder: (context, index) => TransactionTile(
                       name: value.getAllTransactionList()[index].routeName,

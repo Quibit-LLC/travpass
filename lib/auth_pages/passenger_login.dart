@@ -50,7 +50,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
           width: width,
           height: height,
           clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(color: Colors.white),
+          decoration: const BoxDecoration(color: Colors.white),
           child: Stack(
             children: [
               Positioned(
@@ -68,7 +68,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                           width: width,
                           height: height,
                           clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(color: Colors.white),
+                          decoration: const BoxDecoration(color: Colors.white),
                         ),
                       ),
                       Positioned(
@@ -77,7 +77,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                         child: Container(
                           width: 567.62,
                           height: 479,
-                          decoration: ShapeDecoration(
+                          decoration: const ShapeDecoration(
                             color: Color(0xFF0B2031),
                             shape: OvalBorder(),
                           ),
@@ -90,7 +90,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
               Positioned(
                 left: 10,
                 top: height * 0.12,
-                child: SizedBox(
+                child: const SizedBox(
                   width: 400,
                   child: Text.rich(
                     TextSpan(
@@ -138,7 +138,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
+                      focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                           width: 2.0,
                           color: Colors.white,
@@ -146,19 +146,19 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           width: 2.0,
                           color: Colors.grey,
                         ),
                       ),
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.email,
                         color: Color(0xFFFF9F00),
                       ),
                       filled: true,
                       fillColor: Colors.white,
                       hintText: "Email",
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                         color: Color(0xFFFF9F00),
                         fontSize: 17.0,
                       ),
@@ -214,7 +214,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                         ),
                         labelText: 'Password',
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFFFF9F00),
                         fontSize: 20,
                         fontFamily: 'Josefin Sans',
@@ -270,9 +270,9 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                                 top: 0,
                                 child: Container(
                                   width: 250,
-                                  height: 75,
+                                  height: 70,
                                   decoration: ShapeDecoration(
-                                    color: Color(0xFF0B2031),
+                                    color: const Color(0xFF0B2031),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),
                                     ),
@@ -284,7 +284,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                                 top: 40,
                                 child: SizedBox(
                                   width: 109,
-                                  height: 43,
+                                  height: 40,
                                   child: Text(
                                     'LOGIN',
                                     textAlign: TextAlign.center,
@@ -305,11 +305,11 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                       ),
               ),
               Positioned(
-                left: 100,
+                left: 98,
                 top: height * 0.83,
-                child: SizedBox(
-                  width: 309,
-                  height: 158,
+                child: const SizedBox(
+                  width: 303,
+                  height: 155,
                   child: Text(
                     'Forgot Password?',
                     style: TextStyle(
@@ -323,18 +323,18 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                 ),
               ),
               Positioned(
-                left: 55,
+                left: 53,
                 top: height * 0.85,
                 child: SizedBox(
-                  width: 309,
-                  height: 42,
+                  width: 303,
+                  height: 40,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Don’t have an Account? ',
+                      const Text('Don’t have an Account? ',
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 18,
+                            fontSize: 17,
                             fontFamily: 'Josefin Sans',
                             fontWeight: FontWeight.w500,
                             height: 0.09,
@@ -343,17 +343,17 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => RegisterFirstPage(
+                              builder: (context) => const RegisterFirstPage(
                                 isConductor: false,
                               ),
                             ),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           'Sign Up',
                           style: TextStyle(
                             color: Color(0xFFFF9F00),
-                            fontSize: 18,
+                            fontSize: 17,
                             fontFamily: 'Josefin Sans',
                             fontWeight: FontWeight.w500,
                             height: 0.09,
@@ -405,8 +405,12 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
       String result = await Provider.of<AuthService>(context, listen: false)
           .loginUser(body);
       if (result == "ok") {
-        Navigator.push(context,
-            MaterialPageRoute(builder: ((context) => MainPage(isConductor: false,))));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: ((context) => MainPage(
+                      isConductor: false,
+                    ))));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

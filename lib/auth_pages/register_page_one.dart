@@ -27,7 +27,6 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
   final TextEditingController _saccoController = TextEditingController();
 
   bool isLoading = false;
-  // bool isConductor = true;
 
   String? errorTextEmail;
   String? errorTextName;
@@ -69,7 +68,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
           width: width,
           height: height,
           clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(color: Colors.white),
+          decoration: const BoxDecoration(color: Colors.white),
           child: Stack(
             children: [
               Positioned(
@@ -87,7 +86,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
                           width: width,
                           height: height,
                           clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(color: Colors.white),
+                          decoration: const BoxDecoration(color: Colors.white),
                         ),
                       ),
                       Positioned(
@@ -96,7 +95,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
                         child: Container(
                           width: 567.62,
                           height: 479,
-                          decoration: ShapeDecoration(
+                          decoration: const ShapeDecoration(
                             color: Color(0xFF0B2031),
                             shape: OvalBorder(),
                           ),
@@ -120,7 +119,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
                         child: Container(
                           width: 22.12,
                           height: 14,
-                          decoration: ShapeDecoration(
+                          decoration: const ShapeDecoration(
                             color: Color(0xFFFF9F00),
                             shape: CircleBorder(),
                           ),
@@ -132,7 +131,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
                         child: Container(
                           width: 22.12,
                           height: 14,
-                          decoration: ShapeDecoration(
+                          decoration: const ShapeDecoration(
                             color: Colors.white,
                             shape: CircleBorder(),
                           ),
@@ -145,7 +144,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
               Positioned(
                 left: 10,
                 top: height * 0.08,
-                child: SizedBox(
+                child: const SizedBox(
                   width: 401,
                   child: Text.rich(
                     TextSpan(
@@ -162,7 +161,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
                         ),
                         TextSpan(
                           text:
-                              ' Register to get \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n started...',
+                              ' Register to get \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n started...',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 36,
@@ -189,7 +188,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
+                      focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(
                           width: 2.0,
                           color: Colors.white,
@@ -197,19 +196,19 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           width: 2.0,
                           color: Colors.grey,
                         ),
                       ),
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.email,
                         color: Color(0xFFFF9F00),
                       ),
                       filled: true,
                       fillColor: Colors.white,
                       hintText: "EMAIL",
-                      hintStyle: TextStyle(
+                      hintStyle: const TextStyle(
                           color: Color(0xFFFF9F00),
                           fontSize: 20.0,
                           fontFamily: 'Josefin Sans'),
@@ -265,7 +264,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
                         ),
                         labelText: 'USERNAME',
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFFFF9F00),
                         fontSize: 20,
                         fontFamily: 'Josefin Sans',
@@ -317,7 +316,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
                       ),
                       labelText: 'PHONE NUMBER',
                     ),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFFFF9F00),
                       fontSize: 20,
                       fontFamily: 'Josefin Sans',
@@ -374,7 +373,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
                         ),
                         labelText: 'PASSWORD',
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFFFF9F00),
                         fontSize: 20,
                         fontFamily: 'Josefin Sans',
@@ -430,7 +429,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
                         ),
                         labelText: 'CONFIRM PASSWORD',
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFFFF9F00),
                         fontSize: 20,
                         fontFamily: 'Josefin Sans',
@@ -495,7 +494,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
                           ),
                           labelText: 'SACCO ID',
                         ),
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Color(0xFFFF9F00),
                           fontSize: 20,
                           fontFamily: 'Josefin Sans',
@@ -553,7 +552,7 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
                                   width: 330,
                                   height: 75,
                                   decoration: ShapeDecoration(
-                                    color: Color(0xFF0B2031),
+                                    color: const Color(0xFF0B2031),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),
                                     ),
@@ -586,34 +585,34 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
                       ),
               ),
               Positioned(
-                left: 60,
-                top: height * 0.93,
+                left: 56,
+                top: height * 0.9159,
                 child: SizedBox(
-                  width: 309,
+                  width: 305,
                   height: 42,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Already have an Account? ',
+                      const Text('Already have an Account? ',
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 18,
+                            fontSize: 16,
                             fontFamily: 'Josefin Sans',
                             fontWeight: FontWeight.w500,
-                            height: 0.09,
+                            height: 0.08,
                           )),
                       TextButton(
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Text(
+                        child: const Text(
                           'Log In',
                           style: TextStyle(
                             color: Color(0xFFFF9F00),
-                            fontSize: 18,
+                            fontSize: 16,
                             fontFamily: 'Josefin Sans',
                             fontWeight: FontWeight.w500,
-                            height: 0.09,
+                            height: 0.08,
                           ),
                         ),
                       ),
@@ -693,7 +692,6 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
               backgroundColor: Colors.red, // Set background color to red
             ),
           );
-          
         }
 
         setState(() {
@@ -730,7 +728,6 @@ class _RegisterFirstPageState extends State<RegisterFirstPage> {
               backgroundColor: Colors.red, // Set background color to red
             ),
           );
-        
         }
 
         setState(() {

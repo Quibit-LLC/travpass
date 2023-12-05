@@ -93,7 +93,7 @@ class TransactionSummary extends StatelessWidget {
             padding: const EdgeInsets.all(25.0),
             child: Row(
               children: [
-                Text("Week Total: ",
+                const Text("This Week's Total: ",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -105,7 +105,7 @@ class TransactionSummary extends StatelessWidget {
                     "\Kshs. " +
                         calculateWeekTotal(value, sunday, monday, tuesday,
                             wednesday, thursday, friday, saturday),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 20,
                       fontFamily: 'Josefin Sans',

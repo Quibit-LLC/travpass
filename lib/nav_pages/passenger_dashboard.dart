@@ -43,8 +43,8 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.sizeOf(context).width;
+    double height = MediaQuery.sizeOf(context).height;
 
     return FutureBuilder<User?>(
       future: userFuture,
@@ -57,7 +57,7 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                 width: double.maxFinite,
                 height: double.maxFinite,
                 clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(color: Colors.white),
+                decoration: const BoxDecoration(color: Colors.white),
                 child: Stack(
                   children: [
                     Positioned(
@@ -67,12 +67,12 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                         width: width / 2 + width / 2 - 50,
                         height: 150,
                         decoration: ShapeDecoration(
-                          color: Color(0xFF0B2031),
+                          color: const Color(0xFF0B2031),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
                           shadows: [
-                            BoxShadow(
+                            const BoxShadow(
                               color: Color(0x3F000000),
                               blurRadius: 4,
                               offset: Offset(0, 4),
@@ -84,11 +84,11 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                     ),
                     Positioned(
                       left: 10,
-                      top: height - 800,
+                      top: height - 850,
                       child: Text.rich(
                         TextSpan(
                           children: [
-                            TextSpan(
+                            const TextSpan(
                               text: 'Hello ',
                               style: TextStyle(
                                 color: Colors.black,
@@ -100,7 +100,7 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                             ),
                             TextSpan(
                               text: '${user.userName}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Color(0xFFFF9F00),
                                 fontSize: 20,
                                 fontFamily: 'Montserrat',
@@ -108,7 +108,7 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                                 height: 0.09,
                               ),
                             ),
-                            TextSpan(
+                            const TextSpan(
                               text: '.',
                               style: TextStyle(
                                 color: Colors.black,
@@ -124,16 +124,16 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                     ),
                     Positioned(
                       left: 370,
-                      top: height - 830,
-                      child: ImageIcon(AssetImage("images/Alert.png")),
+                      top: height - 850,
+                      child: const ImageIcon(AssetImage("images/Alert.png")),
                     ),
                     Positioned(
                       left: 128,
-                      top: height - 700,
+                      top: height - 720,
                       child: Text(
                         'Kshs. ' + '${user.balance}',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Color(0xFF34DD59),
                           fontSize: 32,
                           fontFamily: 'Montserrat Alternates',
@@ -144,8 +144,8 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                     ),
                     Positioned(
                       left: 120,
-                      top: height - 750,
-                      child: Text(
+                      top: height - 780,
+                      child: const Text(
                         'TravBalance;',
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -159,8 +159,8 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                     ),
                     Positioned(
                       left: 100,
-                      top: height - 600,
-                      child: Row(
+                      top: height - 650,
+                      child: const Row(
                         children: [
                           Column(
                             children: [
@@ -173,7 +173,7 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                               Text("Deposit"),
                             ],
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: 30,
                           ),
                           Column(
@@ -187,7 +187,7 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                               Text("Trasfers"),
                             ],
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: 30,
                           ),
                           Column(
@@ -204,7 +204,7 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                         ],
                       ),
                     ),
-                    Positioned(
+                    const Positioned(
                       left: 10,
                       top: 352,
                       child: SizedBox(
@@ -214,7 +214,7 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                           'RECENT TRANSACTIONS',
                           style: TextStyle(
                             color: Color(0xFF0B2031),
-                            fontSize: 20,
+                            fontSize: 16,
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.w700,
                             height: 0.09,
@@ -222,7 +222,7 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
                         ),
                       ),
                     ),
-                    Positioned(
+                    const Positioned(
                       left: 330,
                       top: 350,
                       child: SizedBox(
@@ -247,68 +247,85 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
 
                     Positioned(
                       left: 0,
-                      top: height - 490,
+                      top: height - 550,
                       child: Column(
                         children: [
                           Container(
                             width: 430,
                             height: 300,
                             child: FutureBuilder<List<Transaction>>(
-                                future: fetchTransactions('${user.id}'),
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Center(
-                                        child: CircularProgressIndicator());
-                                  } else if (snapshot.hasError) {
-                                    return Text('Error: ${snapshot.error}');
-                                  } else {
-                                    return ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount: snapshot.data
-                                          ?.length, // The number of items in the list
-                                      itemBuilder: (context, index) {
-                                        Transaction transaction =
-                                            snapshot.data![index];
-                                        // The function that returns the widget for each item
-                                        return ListTile(
-                                          title: Text(
-                                            transaction.routeName,
-                                            style: TextStyle(
-                                              color: Color(0xFF0B2031),
-                                              fontSize: 20,
-                                              fontFamily: 'Montserrat',
-                                              fontWeight: FontWeight.w500,
-                                              height: 0.09,
-                                            ),
+                              future: fetchTransactions('${user.id}'),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                } else if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                } else if (snapshot.data == null ||
+                                    snapshot.data!.isEmpty) {
+                                  // Display a message when there is no data
+                                  return const Center(
+                                      child: Padding(
+                                    padding: EdgeInsets.all(20.0),
+                                    child: Text(
+                                      'No transactions available yet.\n ',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontFamily: 'Roboto',
+                                        fontWeight: FontWeight.w500,
+                                        height: 0.09,
+                                        letterSpacing: 0.30,
+                                      ),
+                                    ),
+                                  ));
+                                } else {
+                                  // Display the list when there is data
+                                  return ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: snapshot.data!.length,
+                                    itemBuilder: (context, index) {
+                                      Transaction transaction =
+                                          snapshot.data![index];
+                                      return ListTile(
+                                        title: Text(
+                                          transaction.routeName,
+                                          style: const TextStyle(
+                                            color: Color(0xFF0B2031),
+                                            fontSize: 20,
+                                            fontFamily: 'Montserrat',
+                                            fontWeight: FontWeight.w500,
+                                            height: 0.09,
                                           ),
-                                          subtitle: Text(
-                                            transaction.getFormattedTimestamp(),
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 20,
-                                              fontFamily: 'Josefin Sans',
-                                              fontWeight: FontWeight.w500,
-                                              height: 0.09,
-                                            ),
+                                        ),
+                                        subtitle: Text(
+                                          transaction.getFormattedTimestamp(),
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                            fontFamily: 'Josefin Sans',
+                                            fontWeight: FontWeight.w500,
+                                            height: 0.09,
                                           ),
-                                          trailing: Text(
-                                            '- Kshs. ${transaction.fareValue}'
-                                                .toString(),
-                                            style: TextStyle(
-                                              color: Colors.red,
-                                              fontSize: 20,
-                                              fontFamily: 'Josefin Sans',
-                                              fontWeight: FontWeight.w500,
-                                              height: 0.09,
-                                            ),
+                                        ),
+                                        trailing: Text(
+                                          '- Kshs. ${transaction.fareValue}'
+                                              .toString(),
+                                          style: const TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 20,
+                                            fontFamily: 'Josefin Sans',
+                                            fontWeight: FontWeight.w500,
+                                            height: 0.09,
                                           ),
-                                        );
-                                      },
-                                    );
-                                  }
-                                }),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -319,7 +336,7 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
             );
           } else {
             // Handle the case when user information is not available
-            return Scaffold(
+            return const Scaffold(
               body: Center(
                 child: Text('User information not available.'),
               ),
@@ -327,7 +344,7 @@ class _PassengerDashboardState extends State<PassengerDashboard> {
           }
         } else {
           // Handle loading state
-          return Scaffold(
+          return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),

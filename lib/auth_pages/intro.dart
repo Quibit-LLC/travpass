@@ -21,7 +21,7 @@ class _IntroPageState extends State<IntroPage> {
           width: width,
           height: height,
           clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(color: Colors.white),
+          decoration: const BoxDecoration(color: Colors.white),
           child: Stack(
             children: [
               Positioned(
@@ -30,7 +30,7 @@ class _IntroPageState extends State<IntroPage> {
                 child: Container(
                   width: 1080,
                   height: 1920,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage("images/background.png"),
                       fit: BoxFit.fill,
@@ -50,7 +50,7 @@ class _IntroPageState extends State<IntroPage> {
                   child: Container(
                     width: 180,
                     height: 173,
-                    foregroundDecoration: ShapeDecoration(
+                    foregroundDecoration: const ShapeDecoration(
                       image: DecorationImage(
                         image: AssetImage("images/conductor.jpg"),
                         fit: BoxFit.fill,
@@ -62,7 +62,7 @@ class _IntroPageState extends State<IntroPage> {
                           style: BorderStyle.none,
                           strokeAlign: BorderSide.strokeAlignOutside),
                       color:
-                          _isConductor ? Color(0xFFFF9F00) : Colors.transparent,
+                          _isConductor ? const Color(0xFFFF9F00) : Colors.transparent,
                     ),
                   ),
                 ),
@@ -76,7 +76,7 @@ class _IntroPageState extends State<IntroPage> {
                     ..rotateZ(1.59),
                   child: Container(
                     width: 177.03,
-                    decoration: ShapeDecoration(
+                    decoration: const ShapeDecoration(
                       shape: RoundedRectangleBorder(
                         side: BorderSide(
                           width: 1,
@@ -104,9 +104,9 @@ class _IntroPageState extends State<IntroPage> {
                           height: 173,
                           decoration: ShapeDecoration(
                             color: !_isConductor
-                                ? Color(0xFFFF9F00)
+                                ? const Color(0xFFFF9F00)
                                 : Colors.white,
-                            shape: OvalBorder(),
+                            shape: const OvalBorder(),
                           ),
                         ),
                       ),
@@ -114,7 +114,7 @@ class _IntroPageState extends State<IntroPage> {
                         left: 11,
                         top: 0,
                         child: InkWell(
-                          focusColor: Color(0xFFFF9F00),
+                          focusColor: const Color(0xFFFF9F00),
                           onTap: () {
                             setState(() {
                               _isConductor = false;
@@ -123,7 +123,7 @@ class _IntroPageState extends State<IntroPage> {
                           child: Container(
                             width: 175,
                             height: 175,
-                            foregroundDecoration: ShapeDecoration(
+                            foregroundDecoration: const ShapeDecoration(
                               image: DecorationImage(
                                 image: AssetImage("images/passengers.png"),
                                 fit: BoxFit.fill,
@@ -135,7 +135,7 @@ class _IntroPageState extends State<IntroPage> {
                                   style: BorderStyle.none,
                                   strokeAlign: BorderSide.strokeAlignInside),
                               color: !_isConductor
-                                  ? Color(0xFFFF9F00)
+                                  ? const Color(0xFFFF9F00)
                                   : Colors.transparent,
                             ),
                           ),
@@ -176,14 +176,14 @@ class _IntroPageState extends State<IntroPage> {
                             width: 300,
                             height: 75,
                             decoration: ShapeDecoration(
-                              color: Color(0xFFFF9F00),
+                              color: const Color(0xFFFF9F00),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                               ),
                             ),
                           ),
                         ),
-                        Positioned(
+                        const Positioned(
                           left: 100,
                           top: 30,
                           child: Text(
@@ -202,7 +202,7 @@ class _IntroPageState extends State<IntroPage> {
                   ),
                 ),
               ),
-              Positioned(
+              const Positioned(
                 left: 51,
                 top: 80,
                 child: SizedBox(
@@ -250,7 +250,7 @@ class _IntroPageState extends State<IntroPage> {
               Positioned(
                 left: width / 2 - 200,
                 top: 256,
-                child: SizedBox(
+                child: const SizedBox(
                   width: 406,
                   height: 170,
                   child: Text(

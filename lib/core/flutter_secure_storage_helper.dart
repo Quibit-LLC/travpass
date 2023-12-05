@@ -13,6 +13,7 @@ class FlutterSecureStorageHelper {
   static const String emailKey = 'emailAddress';
   static const String balanceKey = 'balance';
   static const String isLoggedInKey = 'isLoggedIn';
+  static const String phoneKey = 'phoneNumber';
 
   // Function to save user information
   Future<void> saveUserInfo({
@@ -21,6 +22,7 @@ class FlutterSecureStorageHelper {
     required String userName,
     required String emailAddress,
     required String balance,
+    required String phoneNumber,
     required bool isLoggedIn,
   }) async {
     await _storage.write(key: tokenKey, value: token);
@@ -28,6 +30,7 @@ class FlutterSecureStorageHelper {
     await _storage.write(key: nameKey, value: userName);
     await _storage.write(key: emailKey, value: emailAddress);
     await _storage.write(key: balanceKey, value: balance.toString());
+    await _storage.write(key: phoneKey, value: phoneNumber);
     await _storage.write(key: isLoggedInKey, value: isLoggedIn.toString());
   }
 
@@ -38,18 +41,20 @@ class FlutterSecureStorageHelper {
     final emailAddress = await _storage.read(key: emailKey);
     final balance = await _storage.read(key: balanceKey);
     final token = await _storage.read(key: tokenKey);
+    final phoneNumber = await _storage.read(key: phoneKey);
 
     if (id != null &&
         userName != null &&
         emailAddress != null &&
         token != null &&
-        balance !=null
-        ) {
+        balance != null &&
+        phoneNumber != null) {
       return User(
         id: id,
         userName: userName,
         balance: balance, // Ensure balance is treated as a double
         emailAddress: emailAddress,
+        phoneNumber: phoneNumber,
         token: token,
       );
     } else {
