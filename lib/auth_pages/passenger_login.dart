@@ -21,7 +21,7 @@ class _PassengerLoginPageState extends State<PassengerLoginPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   bool isLoading = false;
-  bool _obscureText = true;
+  // bool _obscureText = true;
 
   String? errorTextEmail;
   String? errorTextPassword;
